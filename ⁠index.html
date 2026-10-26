@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carnicería El Buen Corte | Carne Fresca y Abastos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+        }
+
+        body {
+            background: #fdf8f3;
+            color: #2c2c2c;
+            line-height: 1.6;
+        }
+
+        /* HEADER */
+        header {
+            background: #8b0000;
+            color: white;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .logo span { color: #ffd700; }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover { color: #ffd700; }
+
+        /* HERO */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+                        url('https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?w=1600') center/cover;
+            color: white;
+            text-align: center;
+            padding: 6rem 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #ffd700;
+            color: #8b0000;
+            padding: 0.9rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .btn:hover {
+            background: #ffed4e;
+            transform: scale(1.05);
+        }
+
+        /* SECCIONES */
+        section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            text-align: center;
+            color: #8b0000;
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitulo {
+            text-align: center;
+            color: #666;
+            margin-bottom: 2.5rem;
+            font-style: italic;
+        }
+
+        /* CATEGORÍAS */
+        .categoria-titulo {
+            color: #8b0000;
+            font-size: 1.6rem;
+            margin: 2.5rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #ffd700;
+            display: inline-block;
+        }
+
+        /* LISTA DE PRODUCTOS */
+        .productos {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .producto {
+            background: white;
+            border-radius: 10px;
+            padding: 1.2rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            border-left: 5px solid #8b0000;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .producto:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 18px rgba(139,0,0,0.2);
+        }
+
+        .producto .icono {
+            font-size: 1.8rem;
+        }
+
+        .producto .nombre {
+            font-weight: 600;
+            color: #2c2c2c;
+        }
+
+        /* NOSOTROS */
+        .nosotros {
+            background: #fff;
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .nosotros p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* CONTACTO */
+        .contacto-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .contacto-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-top: 4px solid #8b0000;
+        }
+
+        .contacto-card h3 {
+            color: #8b0000;
+            margin-bottom: 0.8rem;
+            font-size: 1.3rem;
+        }
+
+        .contacto-card a {
+            color: #2c2c2c;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .contacto-card a:hover { color: #8b0000; }
+
+        /* HORARIO */
+        .horario {
+            background: #8b0000;
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 2rem;
+        }
+
+        .horario h2 { color: #ffd700; margin-bottom: 1.5rem; }
+
+        .horario p { font-size: 1.2rem; margin: 0.5rem 0; }
+
+        /* FOOTER */
+        footer {
+            background: #2c2c2c;
+            color: #ccc;
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        footer span { color: #ffd700; }
+
+        /* RESPONSIVE */
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2rem; }
+            .hero p { font-size: 1rem; }
+            nav { justify-content: center; }
+            nav ul { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <nav>
+            <div class="logo">🥩 Carnicería <span>El Buen Corte</span></div>
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#productos">Productos</a></li>
+                <li><a href="#nosotros">Nosotros</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- HERO -->
+    <div class="hero" id="inicio">
+        <h1>Carne Fresca y Abastos</h1>
+        <p>Todo lo que necesitas para tu cocina, en un solo lugar</p>
+        <a href="#productos" class="btn">Ver Productos</a>
+    </div>
+
+    <!-- PRODUCTOS -->
+    <section id="productos">
+        <h2>Nuestros Productos</h2>
+        <p class="subtitulo">Carnes, pollo, embutidos y abastos de la mejor calidad</p>
+
+        <!-- CARNES FRESCAS -->
+        <h3 class="categoria-titulo">🥩 Carnes Frescas</h3>
+        <div class="productos">
+            <div class="producto"><span class="icono">🥩</span><span class="nombre">Carne de Res</span></div>
+            <div class="producto"><span class="icono">🍖</span><span class="nombre">Chuleta</span></div>
+            <div class="producto"><span class="icono">🥩</span><span class="nombre">Carne Molida</span></div>
+            <div class="producto"><span class="icono">🥩</span><span class="nombre">Mechar Viste</span></div>
+            <div class="producto"><span class="icono">🍲</span><span class="nombre">Carne Quisada</span></div>
+            <div class="producto"><span class="icono">🐷</span><span class="nombre">Chuleta de Cochino</span></div>
+            <div class="producto"><span class="icono">🔥</span><span class="nombre">Chuleta Ahumada</span></div>
+            <div class="producto"><span class="icono">🍖</span><span class="nombre">Costilla</span></div>
+            <div class="producto"><span class="icono">🦴</span><span class="nombre">Hueso Rojo</span></div>
+            <div class="producto"><span class="icono">🫀</span><span class="nombre">Hígado</span></div>
+            <div class="producto"><span class="icono">🍲</span><span class="nombre">Mondongo</span></div>
+        </div>
+
+        <!-- POLLO -->
+        <h3 class="categoria-titulo">🍗 Pollo</h3>
+        <div class="productos">
+            <div class="producto"><span class="icono">🐔</span><span class="nombre">Pollo Entero</span></div>
+            <div class="producto"><span class="icono">🍗</span><span class="nombre">Pollo Picado</span></div>
+            <div class="producto"><span class="icono">🍗</span><span class="nombre">Alas de Pollo</span></div>
+            <div class="producto"><span class="icono">🍗</span><span class="nombre">Muslo de Pollo</span></div>
+            <div class="producto"><span class="icono">🍗</span><span class="nombre">Pechuga de Pollo</span></div>
+        </div>
+
+        <!-- EMBUTIDOS -->
+        <h3 class="categoria-titulo">🌭 Embutidos</h3>
+        <div class="productos">
+            <div class="producto"><span class="icono">🌭</span><span class="nombre">Mortadela Doramos</span></div>
+            <div class="producto"><span class="icono">🌭</span><span class="nombre">Mortadela La Patrona</span></div>
+            <div class="producto"><span class="icono">🌭</span><span class="nombre">Mortadela Alíbal</span></div>
+            <div class="producto"><span class="icono">🌭</span><span class="nombre">Mortadela Punta del Monte</span></div>
+            <div class="producto"><span class="icono">🌭</span><span class="nombre">Salchicha Don Ramón</span></div>
+            <div class="producto"><span class="icono">🌭</span><span class="nombre">Calabresa</span></div>
+        </div>
+
+        <!-- ABASTOS -->
+        <h3 class="categoria-titulo">🛒 Abastos</h3>
+        <div class="productos">
+            <div class="producto"><span class="icono">🛢️</span><span class="nombre">Aceite</span></div>
+            <div class="producto"><span class="icono">🧈</span><span class="nombre">Mantequilla</span></div>
+            <div class="producto"><span class="icono">🌽</span><span class="nombre">Harina Pan</span></div>
+            <div class="producto"><span class="icono">🌾</span><span class="nombre">Harina La Lucha</span></div>
+            <div class="producto"><span class="icono">🍚</span><span class="nombre">Arroz La Lucha</span></div>
+        </div>
+    </section>
+
+    <!-- NOSOTROS -->
+    <section id="nosotros">
+        <h2>Sobre Nosotros</h2>
+        <p class="subtitulo">Más de 20 años sirviendo con orgullo</p>
+        <div class="nosotros">
+            <p>
+                En <strong>Carnicería El Buen Corte</strong> nos dedicamos a ofrecer la mejor carne de la región,
+                pollo fresco en todos sus cortes, embutidos de marcas reconocidas y los abastos que tu familia necesita.
+                Trabajamos con proveedores locales de confianza y garantizamos frescura, higiene y sabor en cada producto.
+                Nuestro compromiso es brindarte un servicio amable y precios justos. ¡Gracias por preferirnos!
+            </p>
+        </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section id="contacto">
+        <h2>Contáctanos</h2>
+        <p class="subtitulo">Estamos a tu disposición</p>
+        <div class="contacto-grid">
+            <div class="contacto-card">
+                <h3>📞 Teléfono</h3>
+                <a href="tel:+521234567890">+52 123 456 7890</a>
+            </div>
+            <div class="contacto-card">
+                <h3>📍 Dirección</h3>
+                <p>Calle Principal #123, Col. Centro</p>
+            </div>
+            <div class="contacto-card">
+                <h3>💬 WhatsApp</h3>
+                <a href="https://wa.me/521234567890" target="_blank">Escríbenos</a>
+            </div>
+            <div class="contacto-card">
+                <h3>✉️ Correo</h3>
+                <a href="mailto:contacto@elbuencorte.com">contacto@elbuencorte.com</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- HORARIO -->
+    <div class="horario">
+        <h2>Horario de Atención</h2>
+        <p>Lunes a Viernes: 8:00 AM – 8:00 PM</p>
+        <p>Sábado: 8:00 AM – 6:00 PM</p>
+        <p>Domingo: 8:00 AM – 2:00 PM</p>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        © 2025 Carnicería <span>El Buen Corte</span> — Todos los derechos reservados.
+    </footer>
+
+</body>
+</html>
