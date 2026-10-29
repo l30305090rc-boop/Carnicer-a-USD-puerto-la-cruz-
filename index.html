@@ -8,426 +8,357 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
-:root{
-  --vino:#4a0e0e;--vino-oscuro:#2a0606;--vino-medio:#6b1414;
-  --carbon:#0f0b0a;--carbon-suave:#1a1412;
-  --dorado:#c9a55c;--dorado-brillo:#e6c47a;
-  --crema:#f5efe6;--crema-suave:#ece3d3;--gris:#8a8078;--texto-claro:#f0e9dd;
-  --borde-oscuro:rgba(201,165,92,0.2);--borde-claro:rgba(74,14,14,0.1);
-  --serif:'Cormorant Garamond',Georgia,serif;
-  --sans:'Manrope',system-ui,-apple-system,sans-serif;
-  --verde-stock:#25d366;
-  --rojo-agotado:#c41e3a;
-}
-body{font-family:var(--sans);font-size:16px;line-height:1.65;color:var(--carbon);background:var(--crema);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
-::selection{background:var(--vino);color:var(--dorado-brillo);}
-img{max-width:100%;display:block;}
-a{color:inherit;}
-button{font-family:inherit;cursor:pointer;border:none;background:none;}
-video{display:block;}
-::-webkit-scrollbar{width:10px;}
-::-webkit-scrollbar-track{background:var(--carbon);}
-::-webkit-scrollbar-thumb{background:linear-gradient(var(--vino-medio),var(--dorado));border-radius:10px;border:2px solid var(--carbon);}
-.progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--vino-medio),var(--dorado),var(--dorado-brillo));width:0;z-index:9999;transition:width .1s linear;box-shadow:0 0 10px rgba(201,165,92,0.6);}
-.cursor,.cursor-dot{position:fixed;top:0;left:0;border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);mix-blend-mode:difference;}
-.cursor{width:36px;height:36px;border:1.5px solid var(--dorado-brillo);transition:width .3s,height .3s,background .3s;}
-.cursor-dot{width:6px;height:6px;background:var(--dorado-brillo);}
-.cursor.hover{width:60px;height:60px;background:rgba(201,165,92,0.15);}
-@media (max-width:1024px){.cursor,.cursor-dot{display:none;}}
-.header{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 40px;background:rgba(15,11,10,0.55);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid rgba(201,165,92,0.12);transition:background .4s;color:var(--texto-claro);}
-.header.scrolled{background:rgba(15,11,10,0.92);}
-.header-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:32px;min-height:80px;flex-wrap:wrap;}
-.brand{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--texto-claro);}
-.brand-mark{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--vino-medio),var(--vino-oscuro));border:1.5px solid var(--dorado);display:flex;align-items:center;justify-content:center;font-size:1.5rem;transition:transform .3s;}
-.brand:hover .brand-mark{transform:rotate(-8deg) scale(1.05);}
-.brand-name{font-family:var(--serif);font-size:1.35rem;font-weight:600;letter-spacing:0.02em;line-height:1.1;}
-.brand-name small{display:block;font-family:var(--sans);font-size:0.6rem;letter-spacing:0.32em;color:var(--dorado);font-weight:600;text-transform:uppercase;margin-bottom:3px;}
-.nav{display:flex;gap:36px;list-style:none;flex-wrap:wrap;}
-.nav a{color:var(--texto-claro);text-decoration:none;font-size:0.85rem;font-weight:500;letter-spacing:0.05em;position:relative;padding:6px 0;transition:color .3s;}
-.nav a::after{content:'';position:absolute;left:0;bottom:0;width:0;height:1.5px;background:var(--dorado);transition:width .35s;}
-.nav a:hover{color:var(--dorado-brillo);}
-.nav a:hover::after{width:100%;}
-.header-cta{display:inline-flex;align-items:center;gap:9px;background:linear-gradient(135deg,var(--dorado),var(--dorado-brillo));color:var(--vino-oscuro);padding:12px 26px;border-radius:6px;font-weight:700;font-size:0.82rem;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;transition:transform .3s,box-shadow .3s;box-shadow:0 6px 24px rgba(201,165,92,0.4);}
-.header-cta:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(201,165,92,0.6);}
-.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--carbon);color:var(--texto-claro);padding:120px 40px 100px;}
-.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:0.55;filter:brightness(0.7) contrast(1.1) saturate(0.9);}
-.hero::before{content:'';position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse at 30% 40%,rgba(74,14,14,0.5),transparent 60%),linear-gradient(180deg,rgba(15,11,10,0.85) 0%,rgba(15,11,10,0.4) 40%,rgba(15,11,10,0.95) 100%);}
-.hero-particles{position:absolute;inset:0;z-index:2;pointer-events:none;}
-.particle{position:absolute;width:4px;height:4px;border-radius:50%;background:var(--dorado-brillo);opacity:0;box-shadow:0 0 12px var(--dorado-brillo);animation:floatParticle 8s ease-in-out infinite;}
-.particle:nth-child(1){left:15%;top:20%;animation-delay:0s;}
-.particle:nth-child(2){left:80%;top:30%;animation-delay:1.5s;}
-.particle:nth-child(3){left:45%;top:70%;animation-delay:3s;}
-.particle:nth-child(4){left:25%;top:80%;animation-delay:4.5s;}
-.particle:nth-child(5){left:70%;top:15%;animation-delay:2s;}
-.particle:nth-child(6){left:55%;top:45%;animation-delay:5s;}
-@keyframes floatParticle{0%,100%{opacity:0;transform:translateY(0) scale(1);}25%{opacity:0.8;}50%{opacity:0.4;transform:translateY(-60px) scale(1.6);}75%{opacity:0.7;}}
-.hero-content{position:relative;z-index:3;max-width:1100px;text-align:center;}
-.hero-eyebrow{display:inline-flex;align-items:center;gap:14px;color:var(--dorado-brillo);font-size:0.72rem;font-weight:700;letter-spacing:0.4em;text-transform:uppercase;margin-bottom:32px;padding:10px 24px;border:1px solid rgba(201,165,92,0.35);border-radius:60px;background:rgba(201,165,92,0.06);backdrop-filter:blur(10px);opacity:0;transform:translateY(20px);animation:heroFade 1s .4s ease forwards;}
-.hero-eyebrow::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--dorado-brillo);box-shadow:0 0 12px var(--dorado-brillo);animation:pulseDot 1.5s infinite;}
-@keyframes pulseDot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(1.4);}}
-@keyframes heroFade{to{opacity:1;transform:translateY(0);}}
-.hero h1{font-family:var(--serif);font-size:clamp(2.8rem,7vw,6rem);font-weight:600;line-height:0.98;letter-spacing:-0.02em;margin-bottom:32px;text-shadow:0 8px 60px rgba(0,0,0,0.7);}
-.hero h1 .line{display:block;opacity:0;transform:translateY(40px) rotateX(-30deg);animation:heroLine 1.2s ease forwards;transform-origin:center bottom;}
-.hero h1 .line:nth-child(1){animation-delay:.6s;}
-.hero h1 .line:nth-child(2){animation-delay:.85s;}
-.hero h1 .line:nth-child(3){animation-delay:1.1s;}
-@keyframes heroLine{to{opacity:1;transform:translateY(0) rotateX(0);}}
-.hero h1 em{color:var(--dorado-brillo);font-style:italic;font-weight:500;}
-.hero-lead{font-size:1.1rem;color:#d0c5b8;max-width:640px;margin:0 auto 48px;line-height:1.8;opacity:0;transform:translateY(20px);animation:heroFade 1s 1.4s ease forwards;}
-.hero-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;opacity:0;transform:translateY(20px);animation:heroFade 1s 1.65s ease forwards;}
-.btn-primary{display:inline-flex;align-items:center;gap:12px;background:linear-gradient(135deg,var(--dorado),var(--dorado-brillo));color:var(--vino-oscuro);padding:18px 42px;border-radius:8px;font-weight:700;font-size:0.9rem;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:all .3s;box-shadow:0 16px 40px rgba(201,165,92,0.4);}
-.btn-primary:hover{transform:translateY(-4px);box-shadow:0 22px 52px rgba(201,165,92,0.6);}
-.btn-secondary{display:inline-flex;align-items:center;gap:12px;background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);color:var(--texto-claro);padding:18px 42px;border-radius:8px;border:1px solid rgba(201,165,92,0.4);font-weight:600;font-size:0.9rem;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:all .3s;}
-.btn-secondary:hover{background:rgba(201,165,92,0.12);border-color:var(--dorado);color:var(--dorado-brillo);transform:translateY(-4px);}
-.marquee{background:var(--dorado);color:var(--vino-oscuro);padding:22px 0;overflow:hidden;border-top:1px solid #a8843f;border-bottom:1px solid #a8843f;position:relative;z-index:5;}
-.marquee-track{display:flex;gap:60px;animation:marqueeScroll 40s linear infinite;white-space:nowrap;width:max-content;}
-.marquee-item{font-family:var(--serif);font-size:1.4rem;font-weight:600;letter-spacing:0.05em;display:flex;align-items:center;gap:60px;text-transform:uppercase;}
-.marquee-item::after{content:'✦';font-size:1rem;}
-@keyframes marqueeScroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
-.section{padding:120px 40px;max-width:1400px;margin:0 auto;position:relative;}
-.section-head{margin-bottom:60px;max-width:760px;}
-.section-head.center{text-align:center;margin-left:auto;margin-right:auto;}
-.eyebrow-line{display:inline-flex;align-items:center;gap:14px;color:var(--vino-medio);font-size:0.72rem;font-weight:700;letter-spacing:0.4em;text-transform:uppercase;margin-bottom:24px;}
-.eyebrow-line::before{content:'';width:44px;height:1px;background:var(--vino-medio);}
-.section-head.center .eyebrow-line::after{content:'';width:44px;height:1px;background:var(--vino-medio);}
-.section h2{font-family:var(--serif);font-size:clamp(2.2rem,4.5vw,3.4rem);font-weight:600;line-height:1.04;letter-spacing:-0.015em;color:var(--vino-oscuro);margin-bottom:20px;}
-.section h2 em{font-style:italic;color:var(--vino-medio);font-weight:500;}
-.section-lead{font-size:1.05rem;color:#5a4f47;line-height:1.75;max-width:640px;}
-.section-head.center .section-lead{margin:0 auto;}
-.featured{background:var(--carbon);color:var(--texto-claro);padding:140px 40px;position:relative;overflow:hidden;}
-.featured::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 10% 20%,rgba(201,165,92,0.06),transparent 40%),radial-gradient(circle at 90% 80%,rgba(107,20,20,0.25),transparent 45%);pointer-events:none;}
-.featured-inner{max-width:1400px;margin:0 auto;position:relative;z-index:1;}
-.featured .eyebrow-line{color:var(--dorado);}
-.featured .eyebrow-line::before{background:var(--dorado);}
-.featured .section-head.center .eyebrow-line::after{background:var(--dorado);}
-.featured h2{color:var(--texto-claro);}
-.featured h2 em{color:var(--dorado-brillo);}
-.featured .section-lead{color:#b8aba0;}
-.featured-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:70px;perspective:1500px;}
-.tilt-card{position:relative;border-radius:16px;overflow:hidden;background:var(--carbon-suave);border:1px solid rgba(201,165,92,0.15);display:flex;flex-direction:column;transform-style:preserve-3d;transition:transform .2s ease-out,box-shadow .4s,border-color .4s;will-change:transform;}
-.tilt-card:hover{border-color:var(--dorado);box-shadow:0 50px 100px -20px rgba(0,0,0,0.8);}
-.tilt-card-inner{transform:translateZ(40px);transform-style:preserve-3d;height:100%;display:flex;flex-direction:column;}
-.tilt-media{position:relative;aspect-ratio:5/4;overflow:hidden;background:linear-gradient(135deg,var(--vino),var(--vino-oscuro));}
-.tilt-media img{width:100%;height:100%;object-fit:cover;transition:transform .7s;}
-.tilt-card:hover .tilt-media img{transform:scale(1.08);}
-.tilt-tag{position:absolute;top:20px;left:20px;background:rgba(15,11,10,0.85);backdrop-filter:blur(10px);border:1px solid var(--dorado);color:var(--dorado-brillo);padding:6px 16px;border-radius:40px;font-size:0.62rem;font-weight:700;letter-spacing:0.25em;text-transform:uppercase;transform:translateZ(20px);}
-.tilt-body{padding:28px;transform:translateZ(30px);}
-.tilt-body h3{font-family:var(--serif);font-size:1.55rem;font-weight:600;color:var(--texto-claro);margin-bottom:10px;line-height:1.2;}
-.tilt-body p{color:#a89c90;font-size:0.9rem;margin-bottom:24px;line-height:1.6;}
-.tilt-row{display:flex;align-items:center;justify-content:space-between;padding-top:22px;border-top:1px solid rgba(201,165,92,0.15);}
-.tilt-price{font-family:var(--serif);font-size:1.7rem;font-weight:600;color:var(--dorado-brillo);line-height:1.2;}
-.tilt-price small{font-family:var(--sans);font-size:0.72rem;color:var(--gris);font-weight:500;}
-.tilt-btn{display:inline-flex;align-items:center;gap:8px;background:var(--dorado);color:var(--vino-oscuro);padding:11px 20px;border-radius:6px;font-weight:700;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:all .25s;}
-.tilt-btn:hover{background:var(--dorado-brillo);transform:scale(1.05);}
-.cat-showcase{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;perspective:1200px;}
-.cat-tile{position:relative;aspect-ratio:3/4;border-radius:16px;overflow:hidden;background:var(--carbon);cursor:pointer;transition:transform .5s ease,box-shadow .5s;text-decoration:none;display:block;transform-style:preserve-3d;}
-.cat-tile:hover{transform:translateY(-10px) rotateX(4deg) rotateY(-4deg);box-shadow:0 40px 80px -20px rgba(74,14,14,0.6);}
-.cat-tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .8s;}
-.cat-tile:hover img{transform:scale(1.12);}
-.cat-tile::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,rgba(15,11,10,0.95) 0%,rgba(15,11,10,0.2) 55%,transparent 100%);}
-.cat-tile-body{position:absolute;bottom:0;left:0;right:0;padding:32px 26px;z-index:2;color:var(--texto-claro);transform:translateZ(40px);}
-.cat-num{font-family:var(--serif);font-size:0.9rem;color:var(--dorado-brillo);letter-spacing:0.25em;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
-.cat-num::after{content:'';flex:1;height:1px;background:rgba(201,165,92,0.3);}
-.cat-tile-body h3{font-family:var(--serif);font-size:1.6rem;font-weight:600;margin-bottom:10px;letter-spacing:-0.01em;}
-.cat-tile-body p{font-size:0.82rem;color:#c9bdb0;line-height:1.55;margin-bottom:18px;}
-.cat-tile-body span{display:inline-flex;align-items:center;gap:8px;color:var(--dorado-brillo);font-size:0.72rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;}
-.toolbar{display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between;margin-bottom:50px;padding-bottom:28px;border-bottom:1px solid var(--borde-claro);}
-.tabs{display:flex;gap:8px;flex-wrap:wrap;}
-.tab{padding:12px 24px;border-radius:40px;background:transparent;color:#5a4f47;font-weight:600;font-size:0.8rem;letter-spacing:0.08em;text-transform:uppercase;border:1px solid transparent;transition:all .3s;}
-.tab:hover{color:var(--vino-medio);border-color:var(--borde-claro);}
-.tab.active{background:var(--vino);color:var(--dorado-brillo);border-color:var(--vino);box-shadow:0 10px 30px rgba(74,14,14,0.35);}
-.search-wrap{position:relative;min-width:280px;flex:0 1 340px;}
-.search{width:100%;padding:14px 22px 14px 50px;border-radius:40px;border:1.5px solid var(--borde-claro);background:#fff;font-family:inherit;font-size:0.92rem;outline:none;transition:all .3s;}
-.search:focus{border-color:var(--dorado);box-shadow:0 0 0 4px rgba(201,165,92,0.15);}
-.search-wrap::before{content:'⌕';position:absolute;left:20px;top:50%;transform:translateY(-52%);font-size:1.35rem;color:var(--gris);pointer-events:none;}
-.cat-title{font-family:var(--serif);font-size:2rem;font-weight:600;color:var(--vino-oscuro);margin:70px 0 32px;display:flex;align-items:center;gap:20px;}
-.cat-title::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--borde-claro),transparent);}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:26px;perspective:1500px;}
-.flip-card{aspect-ratio:3/4;position:relative;perspective:1500px;}
-.flip-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .8s cubic-bezier(.4,0,.2,1);}
-.flip-card:hover .flip-inner{transform:rotateY(180deg);}
-.flip-front,.flip-back{position:absolute;inset:0;border-radius:14px;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;}
-.flip-front{background:#fff;border:1px solid var(--borde-claro);}
-.flip-media{position:relative;flex:1;overflow:hidden;background:#f5efe6;display:flex;align-items:center;justify-content:center;}
-.flip-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:10px;background:#fff;}
-.flip-badge{position:absolute;top:16px;left:16px;z-index:2;background:rgba(74,14,14,0.92);backdrop-filter:blur(8px);color:var(--dorado-brillo);padding:5px 14px;border-radius:40px;font-size:0.6rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;}
-.flip-front-info{padding:20px 22px;background:#fff;border-top:1px solid var(--borde-claro);}
-.flip-front-info h3{font-family:var(--serif);font-size:1.2rem;font-weight:600;color:var(--vino-oscuro);margin-bottom:4px;}
-.flip-price{font-family:var(--serif);font-size:1.45rem;font-weight:700;color:var(--vino);line-height:1.2;}
-.flip-price small{font-family:var(--sans);font-size:0.7rem;color:var(--gris);font-weight:500;}
-.price-ves{display:block;font-size:0.72rem;color:#8a8078;font-weight:500;margin-top:2px;font-family:var(--sans);}
-.flip-front-hint{position:absolute;bottom:90px;right:16px;width:32px;height:32px;border-radius:50%;background:rgba(201,165,92,0.9);color:var(--vino-oscuro);display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700;z-index:2;animation:rotateHint 4s linear infinite;}
-@keyframes rotateHint{0%{transform:rotate(0);}100%{transform:rotate(360deg);}}
-.flip-back{transform:rotateY(180deg);background:linear-gradient(135deg,var(--vino),var(--vino-oscuro));color:var(--texto-claro);padding:28px 24px;justify-content:space-between;border:1px solid var(--dorado);}
-.flip-back h3{font-family:var(--serif);font-size:1.4rem;font-weight:600;color:var(--dorado-brillo);margin-bottom:14px;}
-.back-cat{font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(240,233,221,0.6);font-weight:600;margin-bottom:16px;}
-.flip-back p{font-size:0.85rem;line-height:1.7;color:rgba(240,233,221,0.85);margin-bottom:20px;}
-.back-price{font-family:var(--serif);font-size:1.9rem;font-weight:700;color:var(--dorado-brillo);margin-bottom:20px;line-height:1.2;}
-.back-price small{font-size:0.7rem;color:rgba(240,233,221,0.6);font-family:var(--sans);font-weight:500;}
-.back-btn{display:flex;align-items:center;justify-content:center;gap:10px;background:var(--dorado-brillo);color:var(--vino-oscuro);padding:14px;border-radius:8px;text-decoration:none;font-weight:700;font-size:0.82rem;letter-spacing:0.1em;text-transform:uppercase;transition:all .25s;}
-.back-btn:hover{background:#fff8dd;transform:scale(1.03);}
-.proceso-video{position:relative;background:var(--carbon);color:var(--texto-claro);padding:140px 40px;overflow:hidden;}
-.proceso-video-inner{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;position:relative;z-index:2;}
-.proceso-video .eyebrow-line{color:var(--dorado);}
-.proceso-video .eyebrow-line::before{background:var(--dorado);}
-.proceso-video h2{color:var(--texto-claro);margin-bottom:24px;}
-.proceso-video h2 em{color:var(--dorado-brillo);}
-.proceso-video .section-lead{color:#b8aba0;margin-bottom:40px;}
-.video-frame{position:relative;aspect-ratio:4/5;border-radius:20px;overflow:hidden;border:1px solid rgba(201,165,92,0.3);box-shadow:0 60px 120px -30px rgba(0,0,0,0.8);transform:perspective(1500px) rotateY(-6deg) rotateX(2deg);transition:transform .6s;}
-.video-frame:hover{transform:perspective(1500px) rotateY(0) rotateX(0);}
-.video-frame video{width:100%;height:100%;object-fit:cover;}
-.video-frame::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(15,11,10,0.7) 100%);pointer-events:none;}
-.video-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:90px;height:90px;border-radius:50%;background:rgba(201,165,92,0.95);color:var(--vino-oscuro);display:flex;align-items:center;justify-content:center;font-size:1.8rem;z-index:2;cursor:pointer;transition:transform .3s;animation:playPulse 2s infinite;}
-.video-play::before{content:'▶';margin-left:4px;}
-.video-play:hover{transform:translate(-50%,-50%) scale(1.1);}
-@keyframes playPulse{0%,100%{box-shadow:0 0 0 0 rgba(201,165,92,0.6);}70%{box-shadow:0 0 0 30px rgba(201,165,92,0);}}
-.proceso-steps{display:flex;flex-direction:column;gap:32px;}
-.paso{display:flex;gap:24px;align-items:flex-start;padding:24px 0;border-bottom:1px solid rgba(201,165,92,0.12);transition:padding .3s;}
-.paso:hover{padding-left:12px;}
-.paso:last-child{border-bottom:none;}
-.paso-num{font-family:var(--serif);font-size:2.4rem;font-weight:700;color:transparent;-webkit-text-stroke:1.5px var(--dorado);line-height:1;flex-shrink:0;min-width:70px;}
-.paso-info h3{font-family:var(--serif);font-size:1.4rem;font-weight:600;color:var(--texto-claro);margin-bottom:8px;}
-.paso-info p{font-size:0.9rem;color:#a89c90;line-height:1.65;}
-.testimonios{background:var(--crema);overflow:hidden;}
-.test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:60px;perspective:2000px;}
-.test{background:#fff;padding:40px 34px;border-radius:16px;border:1px solid var(--borde-claro);position:relative;transition:transform .5s,box-shadow .5s;transform-style:preserve-3d;}
-.test:nth-child(1){transform:rotateY(6deg);}
-.test:nth-child(2){transform:translateZ(30px);}
-.test:nth-child(3){transform:rotateY(-6deg);}
-.test:hover{transform:rotateY(0) translateZ(0) translateY(-10px);box-shadow:0 50px 100px -30px rgba(74,14,14,0.4);}
-.test::before{content:'"';font-family:var(--serif);font-size:8rem;line-height:1;color:var(--dorado);opacity:0.25;position:absolute;top:0;right:30px;pointer-events:none;}
-.test-stars{color:var(--dorado);letter-spacing:4px;margin-bottom:20px;font-size:1rem;}
-.test p{color:#2a1f1a;font-size:0.98rem;line-height:1.75;margin-bottom:28px;font-style:italic;position:relative;z-index:1;}
-.test-author{display:flex;align-items:center;gap:16px;}
-.test-avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--vino),var(--vino-medio));color:var(--dorado-brillo);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem;flex-shrink:0;border:2px solid var(--dorado);}
-.test-author-info strong{display:block;color:var(--vino-oscuro);font-size:0.95rem;font-weight:700;}
-.test-author-info span{font-size:0.78rem;color:var(--gris);letter-spacing:0.05em;}
-.stats-parallax{position:relative;background:var(--carbon);color:var(--texto-claro);padding:140px 40px;overflow:hidden;text-align:center;}
-.stats-parallax::before{content:'';position:absolute;inset:-20%;background:radial-gradient(circle at 30% 40%,rgba(201,165,92,0.12),transparent 40%),radial-gradient(circle at 70% 60%,rgba(107,20,20,0.4),transparent 45%);pointer-events:none;animation:statsShift 20s ease-in-out infinite;}
-@keyframes statsShift{0%,100%{transform:translate(0,0);}50%{transform:translate(-30px,20px);}}
-.stats-inner{position:relative;z-index:2;max-width:1200px;margin:0 auto;}
-.stats-inner h2{font-family:var(--serif);font-size:clamp(2rem,4vw,3rem);font-weight:600;color:var(--texto-claro);margin-bottom:70px;}
-.stats-inner h2 em{color:var(--dorado-brillo);font-style:italic;font-weight:500;}
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:44px;}
-.stat{padding:0 20px;border-right:1px solid rgba(201,165,92,0.15);}
-.stat:last-child{border-right:none;}
-.stat-num{font-family:var(--serif);font-size:clamp(2.8rem,5vw,4.2rem);font-weight:700;color:var(--dorado-brillo);line-height:1;display:block;margin-bottom:14px;}
-.stat-label{font-size:0.78rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gris);font-weight:600;}
-.nosotros-card{background:#fff;border-radius:24px;padding:80px 70px;text-align:center;max-width:960px;margin:0 auto;box-shadow:0 40px 100px -30px rgba(20,16,14,0.2);border-top:4px solid var(--dorado);position:relative;overflow:hidden;}
-.nosotros-card p{font-family:var(--serif);font-size:1.45rem;line-height:1.7;color:#3a302a;font-style:italic;max-width:780px;margin:0 auto;position:relative;z-index:1;}
-.nosotros-card strong{color:var(--vino-oscuro);font-style:normal;font-weight:700;}
-.contacto-section{background:linear-gradient(135deg,var(--vino-oscuro) 0%,var(--vino) 100%);padding:140px 40px;color:var(--texto-claro);position:relative;overflow:hidden;}
-.contacto-inner{max-width:1200px;margin:0 auto;position:relative;z-index:1;}
-.contacto-section .eyebrow-line{color:var(--dorado-brillo);}
-.contacto-section .eyebrow-line::before,.contacto-section .eyebrow-line::after{background:var(--dorado-brillo);}
-.contacto-section h2{color:var(--texto-claro);}
-.contacto-section h2 em{color:var(--dorado-brillo);}
-.contacto-section .section-lead{color:rgba(240,233,221,0.8);}
-.contacto-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:60px;}
-.contacto-card{background:rgba(255,255,255,0.06);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:44px 28px;border-radius:16px;border:1px solid rgba(201,165,92,0.25);text-align:center;transition:all .4s;}
-.contacto-card:hover{transform:translateY(-8px);background:rgba(255,255,255,0.1);border-color:var(--dorado-brillo);}
-.contacto-ico{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--dorado),var(--dorado-brillo));color:var(--vino-oscuro);display:flex;align-items:center;justify-content:center;font-size:1.7rem;margin:0 auto 22px;transition:transform .4s;}
-.contacto-card:hover .contacto-ico{transform:rotate(-10deg) scale(1.1);}
-.contacto-card h4{font-family:var(--serif);font-size:1.2rem;font-weight:600;color:var(--dorado-brillo);margin-bottom:10px;}
-.contacto-card p,.contacto-card a{color:rgba(240,233,221,0.85);font-size:0.92rem;text-decoration:none;line-height:1.5;}
-.contacto-card a:hover{color:var(--dorado-brillo);}
-.cta-final{background:linear-gradient(-45deg,var(--vino-oscuro),var(--vino),var(--vino-medio),var(--vino-oscuro));background-size:400% 400%;animation:gradientShift 15s ease infinite;color:var(--texto-claro);padding:140px 40px;text-align:center;position:relative;overflow:hidden;}
-@keyframes gradientShift{0%,100%{background-position:0% 50%;}50%{background-position:100% 50%;}}
-.cta-inner{max-width:840px;margin:0 auto;position:relative;z-index:1;}
-.cta-final h2{font-family:var(--serif);font-size:clamp(2.4rem,5vw,3.8rem);font-weight:600;line-height:1.04;margin-bottom:28px;}
-.cta-final h2 em{color:var(--dorado-brillo);font-style:italic;font-weight:500;}
-.cta-final p{font-size:1.1rem;color:#d8cbc0;margin-bottom:50px;line-height:1.75;}
-.horario-bar{background:var(--carbon-suave);color:var(--texto-claro);padding:60px 40px;border-top:1px solid var(--borde-oscuro);}
-.horario-inner{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:52px;}
-.horario-title{font-family:var(--serif);font-size:1.9rem;font-weight:600;color:var(--dorado-brillo);line-height:1.1;}
-.horario-title small{display:block;font-family:var(--sans);font-size:0.7rem;color:var(--gris);letter-spacing:0.3em;text-transform:uppercase;font-weight:600;margin-bottom:8px;}
-.horario-dias{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;border-left:1px solid var(--borde-oscuro);padding-left:52px;}
-.horario-dia strong{display:block;font-size:0.72rem;color:var(--gris);letter-spacing:0.2em;text-transform:uppercase;font-weight:600;margin-bottom:8px;}
-.horario-dia span{font-family:var(--serif);font-size:1.2rem;color:var(--texto-claro);font-weight:500;}
-.horario-badge{background:linear-gradient(135deg,var(--dorado),var(--dorado-brillo));color:var(--vino-oscuro);padding:12px 24px;border-radius:40px;font-size:0.72rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;display:inline-flex;align-items:center;gap:10px;}
-.horario-badge::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--vino-oscuro);animation:pulseDot 1.6s infinite;}
-.footer{background:var(--vino-oscuro);color:#a89c90;padding:80px 40px 40px;}
-.footer-inner{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:64px;padding-bottom:60px;border-bottom:1px solid var(--borde-oscuro);}
-.footer-brand .brand-name{color:var(--texto-claro);}
-.footer-brand p{margin-top:22px;font-size:0.9rem;line-height:1.8;max-width:380px;color:#8a8078;}
-.footer h5{color:var(--dorado-brillo);font-family:var(--serif);font-size:1.2rem;font-weight:600;margin-bottom:20px;}
-.footer ul{list-style:none;display:flex;flex-direction:column;gap:12px;}
-.footer a{color:#a89c90;text-decoration:none;font-size:0.9rem;transition:all .25s;display:inline-block;}
-.footer a:hover{color:var(--dorado-brillo);transform:translateX(4px);}
-.footer-bottom{max-width:1400px;margin:0 auto;padding-top:32px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:0.82rem;color:#6b6157;}
-.footer-bottom span{color:var(--dorado-brillo);font-weight:600;}
-.wpp{position:fixed;bottom:30px;right:30px;width:62px;height:62px;border-radius:50%;background:#25d366;color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.8rem;text-decoration:none;box-shadow:0 12px 32px rgba(37,211,102,0.5);z-index:999;transition:transform .3s;animation:wppPulse 2.6s infinite;}
-.wpp:hover{transform:scale(1.15) rotate(8deg);}
-@keyframes wppPulse{0%{box-shadow:0 0 0 0 rgba(37,211,102,0.5);}70%{box-shadow:0 0 0 24px rgba(37,211,102,0);}100%{box-shadow:0 0 0 0 rgba(37,211,102,0);}}
-@media (max-width:1024px){
-  .hero{min-height:auto;padding:140px 28px 100px;}
-  .cat-showcase{grid-template-columns:repeat(2,1fr);}
-  .featured-grid{grid-template-columns:1fr 1fr;gap:24px;}
-  .proceso-video-inner{grid-template-columns:1fr;gap:56px;}
-  .video-frame{max-width:500px;margin:0 auto;}
-  .test-grid{grid-template-columns:1fr;}
-  .test:nth-child(1),.test:nth-child(2),.test:nth-child(3){transform:none;}
-  .stats-grid{grid-template-columns:repeat(2,1fr);gap:40px;}
-  .stat{border-right:none;border-bottom:1px solid rgba(201,165,92,0.15);padding-bottom:32px;}
-  .stat:nth-child(3),.stat:nth-child(4){border-bottom:none;padding-bottom:0;}
-  .contacto-grid{grid-template-columns:repeat(2,1fr);}
-  .horario-inner{grid-template-columns:1fr;gap:36px;text-align:center;}
-  .horario-dias{border-left:none;padding-left:0;border-top:1px solid var(--borde-oscuro);padding-top:36px;}
-  .footer-inner{grid-template-columns:1fr;gap:44px;}
-  .nosotros-card{padding:60px 40px;}
-}
-@media (max-width:640px){
-  .section{padding:90px 24px;}
-  .header{padding:0 20px;}
-  .header-inner{justify-content:center;padding:16px 0;gap:16px;}
-  .nav{gap:20px;font-size:0.8rem;}
-  .hero{padding:120px 24px 80px;}
-  .hero-actions{flex-direction:column;width:100%;max-width:320px;margin:0 auto;}
-  .btn-primary,.btn-secondary{width:100%;justify-content:center;padding:16px 24px;font-size:0.82rem;}
-  .cat-showcase{grid-template-columns:1fr;}
-  .featured-grid{grid-template-columns:1fr;}
-  .tilt-card-inner{transform:none;}
-  .stats-grid{grid-template-columns:1fr;gap:32px;}
-  .contacto-grid{grid-template-columns:1fr;}
-  .horario-dias{grid-template-columns:1fr;}
-  .marquee-item{font-size:1.1rem;gap:36px;}
-  .toolbar{flex-direction:column;align-items:stretch;}
-  .tabs{justify-content:center;}
-  .nosotros-card{padding:44px 28px;}
-  .nosotros-card p{font-size:1.05rem;}
-  .footer{padding:60px 24px 32px;}
-  .wpp{width:54px;height:54px;font-size:1.5rem;bottom:22px;right:22px;}
-  .featured,.proceso-video,.contacto-section,.cta-final{padding:100px 24px;}
-}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+:root{--vino:#4a0e0e;--vino-oscuro:#2a0606;--vino-medio:#6b1414;--carbon:#0f0b0a;--carbon-suave:#1a1412;--dorado:#c9a55c;--dorado-brillo:#e6c47a;--crema:#f5efe6;--crema-suave:#ece3d3;--gris:#8a8078;--texto-claro:#f0e9dd;--borde-oscuro:rgba(201,165,92,0.2);--borde-claro:rgba(74,14,14,0.1);--serif:'Cormorant Garamond',Georgia,serif;--sans:'Manrope',system-ui,-apple-system,sans-serif;--verde-stock:#25d366;--rojo-agotado:#c41e3a}
+body{font-family:var(--sans);font-size:16px;line-height:1.65;color:var(--carbon);background:var(--crema);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--vino);color:var(--dorado-brillo)}
+img{max-width:100%;display:block}
+a{color:inherit}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+video{display:block}
+::-webkit-scrollbar{width:10px}::-webkit-scrollbar-track{background:var(--carbon)}::-webkit-scrollbar-thumb{background:linear-gradient(var(--vino-medio),var(--dorado));border-radius:10px;border:2px solid var(--carbon)}
+.progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--vino-medio),var(--dorado),var(--dorado-brillo));width:0;z-index:9999;transition:width .1s linear;box-shadow:0 0 10px rgba(201,165,92,0.6)}
+.header{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 40px;background:rgba(15,11,10,0.55);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid rgba(201,165,92,0.12);transition:background .4s;color:var(--texto-claro)}
+.header.scrolled{background:rgba(15,11,10,0.92)}
+.header-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:32px;min-height:80px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--texto-claro)}
+.brand-mark{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--vino-medio),var(--vino-oscuro));border:1.5px solid var(--dorado);display:flex;align-items:center;justify-content:center;font-size:1.5rem;transition:transform .3s}
+.brand:hover .brand-mark{transform:rotate(-8deg) scale(1.05)}
+.brand-name{font-family:var(--serif);font-size:1.35rem;font-weight:600;letter-spacing:0.02em;line-height:1.1}
+.brand-name small{display:block;font-family:var(--sans);font-size:0.6rem;letter-spacing:0.32em;color:var(--dorado);font-weight:600;text-transform:uppercase;margin-bottom:3px}
+.nav{display:flex;gap:36px;list-style:none;flex-wrap:wrap}
+.nav a{color:var(--texto-claro);text-decoration:none;font-size:0.85rem;font-weight:500;letter-spacing:0.05em;position:relative;padding:6px 0;transition:color .3s}
+.nav a::after{content:'';position:absolute;left:0;bottom:0;width:0;height:1.5px;background:var(--dorado);transition:width .35s}
+.nav a:hover{color:var(--dorado-brillo)}
+.nav a:hover::after{width:100%}
+.header-cta{display:inline-flex;align-items:center;gap:9px;background:linear-gradient(135deg,var(--dorado),var(--dorado-brillo));color:var(--vino-oscuro);padding:12px 26px;border-radius:6px;font-weight:700;font-size:0.82rem;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;transition:transform .3s,box-shadow .3s;box-shadow:0 6px 24px rgba(201,165,92,0.4)}
+.header-cta:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(201,165,92,0.6)}
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--carbon);color:var(--texto-claro);padding:120px 40px 100px}
+.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:0.55;filter:brightness(0.7) contrast(1.1) saturate(0.9)}
+.hero::before{content:'';position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse at 30% 40%,rgba(74,14,14,0.5),transparent 60%),linear-gradient(180deg,rgba(15,11,10,0.85) 0%,rgba(15,11,10,0.4) 40%,rgba(15,11,10,0.95) 100%)}
+.hero-content{position:relative;z-index:3;max-width:1100px;text-align:center}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:14px;color:var(--dorado-brillo);font-size:0.72rem;font-weight:700;letter-spacing:0.4em;text-transform:uppercase;margin-bottom:32px;padding:10px 24px;border:1px solid rgba(201,165,92,0.35);border-radius:60px;background:rgba(201,165,92,0.06);backdrop-filter:blur(10px)}
+.hero-eyebrow::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--dorado-brillo);box-shadow:0 0 12px var(--dorado-brillo);animation:pulseDot 1.5s infinite}
+@keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.4)}}
+.hero h1{font-family:var(--serif);font-size:clamp(2.8rem,7vw,6rem);font-weight:600;line-height:0.98;letter-spacing:-0.02em;margin-bottom:32px;text-shadow:0 8px 60px rgba(0,0,0,0.7)}
+.hero h1 em{color:var(--dorado-brillo);font-style:italic;font-weight:500}
+.hero-lead{font-size:1.1rem;color:#d0c5b8;max-width:640px;margin:0 auto 48px;line-height:1.8}
+.hero-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.btn-primary{display:inline-flex;align-items:center;gap:12px;background:linear-gradient(135deg,var(--dorado),var(--dorado-brillo));color:var(--vino-oscuro);padding:18px 42px;border-radius:8px;font-weight:700;font-size:0.9rem;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:all .3s;box-shadow:0 16px 40px rgba(201,165,92,0.4)}
+.btn-primary:hover{transform:translateY(-4px);box-shadow:0 22px 52px rgba(201,165,92,0.6)}
+.btn-secondary{display:inline-flex;align-items:center;gap:12px;background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);color:var(--texto-claro);padding:18px 42px;border-radius:8px;border:1px solid rgba(201,165,92,0.4);font-weight:600;font-size:0.9rem;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:all .3s}
+.btn-secondary:hover{background:rgba(201,165,92,0.12);border-color:var(--dorado);color:var(--dorado-brillo);transform:translateY(-4px)}
+.marquee{background:var(--dorado);color:var(--vino-oscuro);padding:22px 0;overflow:hidden;border-top:1px solid #a8843f;border-bottom:1px solid #a8843f;position:relative;z-index:5}
+.marquee-track{display:flex;gap:60px;animation:marqueeScroll 40s linear infinite;white-space:nowrap;width:max-content}
+.marquee-item{font-family:var(--serif);font-size:1.4rem;font-weight:600;letter-spacing:0.05em;display:flex;align-items:center;gap:60px;text-transform:uppercase}
+.marquee-item::after{content:'✦';font-size:1rem}
+@keyframes marqueeScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.section{padding:120px 40px;max-width:1400px;margin:0 auto;position:relative}
+.section-head{margin-bottom:60px;max-width:760px}
+.section-head.center{text-align:center;margin-left:auto;margin-right:auto}
+.eyebrow-line{display:inline-flex;align-items:center;gap:14px;color:var(--vino-medio);font-size:0.72rem;font-weight:700;letter-spacing:0.4em;text-transform:uppercase;margin-bottom:24px}
+.eyebrow-line::before{content:'';width:44px;height:1px;background:var(--vino-medio)}
+.section-head.center .eyebrow-line::after{content:'';width:44px;height:1px;background:var(--vino-medio)}
+.section h2{font-family:var(--serif);font-size:clamp(2.2rem,4.5vw,3.4rem);font-weight:600;line-height:1.04;letter-spacing:-0.015em;color:var(--vino-oscuro);margin-bottom:20px}
+.section h2 em{font-style:italic;color:var(--vino-medio);font-weight:500}
+.section-lead{font-size:1.05rem;color:#5a4f47;line-height:1.75;max-width:640px}
+.section-head.center .section-lead{margin:0 auto}
+.cat-showcase{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.cat-tile{position:relative;aspect-ratio:3/4;border-radius:16px;overflow:hidden;background:var(--carbon);cursor:pointer;transition:transform .5s,box-shadow .5s;text-decoration:none;display:block}
+.cat-tile:hover{transform:translateY(-10px);box-shadow:0 40px 80px -20px rgba(74,14,14,0.6)}
+.cat-tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .8s}
+.cat-tile:hover img{transform:scale(1.12)}
+.cat-tile::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,rgba(15,11,10,0.95) 0%,rgba(15,11,10,0.2) 55%,transparent 100%)}
+.cat-tile-body{position:absolute;bottom:0;left:0;right:0;padding:32px 26px;z-index:2;color:var(--texto-claro)}
+.cat-num{font-family:var(--serif);font-size:0.9rem;color:var(--dorado-brillo);letter-spacing:0.25em;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+.cat-num::after{content:'';flex:1;height:1px;background:rgba(201,165,92,0.3)}
+.cat-tile-body h3{font-family:var(--serif);font-size:1.6rem;font-weight:600;margin-bottom:10px;letter-spacing:-0.01em}
+.cat-tile-body p{font-size:0.82rem;color:#c9bdb0;line-height:1.55;margin-bottom:18px}
+.cat-tile-body span{display:inline-flex;align-items:center;gap:8px;color:var(--dorado-brillo);font-size:0.72rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase}
+.toolbar{display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between;margin-bottom:50px;padding-bottom:28px;border-bottom:1px solid var(--borde-claro)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab{padding:12px 24px;border-radius:40px;background:transparent;color:#5a4f47;font-weight:600;font-size:0.8rem;letter-spacing:0.08em;text-transform:uppercase;border:1px solid transparent;transition:all .3s}
+.tab:hover{color:var(--vino-medio);border-color:var(--borde-claro)}
+.tab.active{background:var(--vino);color:var(--dorado-brillo);border-color:var(--vino);box-shadow:0 10px 30px rgba(74,14,14,0.35)}
+.search-wrap{position:relative;min-width:280px;flex:0 1 340px}
+.search{width:100%;padding:14px 22px 14px 50px;border-radius:40px;border:1.5px solid var(--borde-claro);background:#fff;font-family:inherit;font-size:0.92rem;outline:none;transition:all .3s}
+.search:focus{border-color:var(--dorado);box-shadow:0 0 0 4px rgba(201,165,92,0.15)}
+.search-wrap::before{content:'⌕';position:absolute;left:20px;top:50%;transform:translateY(-52%);font-size:1.35rem;color:var(--gris);pointer-events:none}
+.cat-title{font-family:var(--serif);font-size:2rem;font-weight:600;color:var(--vino-oscuro);margin:70px 0 32px;display:flex;align-items:center;gap:20px}
+.cat-title::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--borde-claro),transparent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:26px}
+.flip-card{aspect-ratio:3/4;position:relative;perspective:1500px}
+.flip-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .8s cubic-bezier(.4,0,.2,1)}
+.flip-card:hover .flip-inner{transform:rotateY(180deg)}
+.flip-front,.flip-back{position:absolute;inset:0;border-radius:14px;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column}
+.flip-front{background:#fff;border:1px solid var(--borde-claro)}
+.flip-media{position:relative;flex:1;overflow:hidden;background:#f5efe6;display:flex;align-items:center;justify-content:center}
+.flip-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:10px;background:#fff}
+.flip-badge{position:absolute;top:16px;left:16px;z-index:2;background:rgba(74,14,14,0.92);backdrop-filter:blur(8px);color:var(--dorado-brillo);padding:5px 14px;border-radius:40px;font-size:0.6rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase}
+.flip-front-info{padding:20px 22px;background:#fff;border-top:1px solid var(--borde-claro)}
+.flip-front-info h3{font-family:var(--serif);font-size:1.2rem;font-weight:600;color:var(--vino-oscuro);margin-bottom:4px}
+.flip-price{font-family:var(--serif);font-size:1.45rem;font-weight:700;color:var(--vino);line-height:1.2}
+.flip-price small{font-family:var(--sans);font-size:0.7rem;color:var(--gris);font-weight:500}
+.price-ves{display:block;font-size:0.72rem;color:#8a8078;font-weight:500;margin-top:2px;font-family:var(--sans)}
+.flip-front-hint{position:absolute;bottom:90px;right:16px;width:32px;height:32px;border-radius:50%;background:rgba(201,165,92,0.9);color:var(--vino-oscuro);display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700;z-index:2}
+.flip-back{transform:rotateY(180deg);background:linear-gradient(135deg,var(--vino),var(--vino-oscuro));color:var(--texto-claro);padding:28px 24px;justify-content:space-between;border:1px solid var(--dorado)}
+.flip-back h3{font-family:var(--serif);font-size:1.4rem;font-weight:600;color:var(--dorado-brillo);margin-bottom:14px}
+.back-cat{font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(240,233,221,0.6);font-weight:600;margin-bottom:16px}
+.flip-back p{font-size:0.85rem;line-height:1.7;color:rgba(240,233,221,0.85);margin-bottom:20px}
+.back-price{font-family:var(--serif);font-size:1.9rem;font-weight:700;color:var(--dorado-brillo);margin-bottom:20px;line-height:1.2}
+.back-price small{font-size:0.7rem;color:rgba(240,233,221,0.6);font-family:var(--sans);font-weight:500}
+.back-btn{display:flex;align-items:center;justify-content:center;gap:10px;background:var(--dorado-brillo);color:var(--vino-oscuro);padding:14px;border-radius:8px;text-decoration:none;font-weight:700;font-size:0.82rem;letter-spacing:0.1em;text-transform:uppercase;transition:all .25s}
+.back-btn:hover{background:#fff8dd;transform:scale(1.03)}
+.agregar-btn{display:flex;align-items:center;justify-content:center;gap:6px;background:#25d366;color:#fff;padding:10px;border-radius:8px;font-weight:700;font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;border:none;cursor:pointer;margin-bottom:8px;width:100%;transition:all .25s}
+.agregar-btn:hover{background:#1eb857;transform:scale(1.03)}
+.agregar-btn.agregado{background:#6b1414}
+.combos-section{background:var(--crema-suave);padding:120px 40px}
+.combos-inner{max-width:1400px;margin:0 auto}
+.combos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:60px}
+.combo-card{background:#fff;border-radius:20px;overflow:hidden;border:2px solid var(--borde-claro);transition:all .4s;position:relative;display:flex;flex-direction:column}
+.combo-card:hover{transform:translateY(-10px);border-color:var(--dorado);box-shadow:0 30px 70px -20px rgba(74,14,14,0.35)}
+.combo-card.destacado{border-color:var(--dorado);box-shadow:0 20px 50px -15px rgba(201,165,92,0.5)}
+.combo-ribbon{position:absolute;top:16px;right:-40px;background:linear-gradient(135deg,var(--dorado),var(--dorado-brillo));color:var(--vino-oscuro);padding:6px 50px;transform:rotate(35deg);font-size:0.65rem;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;z-index:3;box-shadow:0 4px 12px rgba(0,0,0,0.2)}
+.combo-media{position:relative;aspect-ratio:16/10;overflow:hidden;background:linear-gradient(135deg,var(--vino),var(--vino-oscuro))}
+.combo-media img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.combo-card:hover .combo-media img{transform:scale(1.08)}
+.combo-media::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,rgba(15,11,10,0.7) 0%,transparent 60%)}
+.combo-ahorro{position:absolute;bottom:16px;left:16px;background:var(--verde-stock);color:#fff;padding:6px 14px;border-radius:40px;font-size:0.72rem;font-weight:800;letter-spacing:0.08em;z-index:2;box-shadow:0 4px 14px rgba(37,211,102,0.5)}
+.combo-body{padding:26px;display:flex;flex-direction:column;flex:1}
+.combo-body h3{font-family:var(--serif);font-size:1.6rem;font-weight:600;color:var(--vino-oscuro);margin-bottom:8px;line-height:1.2}
+.combo-body .combo-desc{font-size:0.88rem;color:#5a4f47;line-height:1.6;margin-bottom:18px;min-height:44px}
+.combo-incluye{list-style:none;padding:0;margin:0 0 22px;display:flex;flex-direction:column;gap:8px}
+.combo-incluye li{font-size:0.85rem;color:#3a302a;padding-left:24px;position:relative;line-height:1.4}
+.combo-incluye li::before{content:'✓';position:absolute;left:0;top:0;color:var(--verde-stock);font-weight:800;font-size:1rem}
+.combo-precios{display:flex;align-items:baseline;gap:12px;margin-bottom:18px;padding-top:18px;border-top:1px dashed var(--borde-claro)}
+.combo-precio-ant{font-size:1rem;color:#999;text-decoration:line-through;font-weight:500}
+.combo-precio-act{font-family:var(--serif);font-size:2.2rem;font-weight:700;color:var(--vino);line-height:1}
+.combo-precio-bs{display:block;font-size:0.75rem;color:#8a8078;font-weight:500;margin-top:4px}
+.combo-btn{margin-top:auto;display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,var(--vino),var(--vino-medio));color:#fff;padding:15px;border-radius:10px;text-decoration:none;font-weight:700;font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;transition:all .3s}
+.combo-btn:hover{transform:scale(1.03);box-shadow:0 12px 28px rgba(74,14,14,0.4)}
+.deldia-section{background:linear-gradient(135deg,var(--vino-oscuro) 0%,var(--vino) 100%);color:var(--texto-claro);padding:110px 40px}
+.deldia-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center}
+.deldia-media{position:relative;aspect-ratio:1;border-radius:24px;overflow:hidden;border:3px solid var(--dorado);box-shadow:0 50px 100px -30px rgba(0,0,0,0.8)}
+.deldia-media img{width:100%;height:100%;object-fit:cover}
+.deldia-descuento{position:absolute;top:24px;right:24px;background:var(--verde-stock);color:#fff;width:90px;height:90px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:800;z-index:2;box-shadow:0 10px 30px rgba(37,211,102,0.5);animation:latido 2s ease-in-out infinite}
+@keyframes latido{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.deldia-descuento span:first-child{font-size:1.8rem;line-height:1;font-family:var(--serif)}
+.deldia-descuento span:last-child{font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;margin-top:2px}
+.deldia-info .eyebrow-line{color:var(--dorado-brillo)}
+.deldia-info .eyebrow-line::before{background:var(--dorado-brillo)}
+.deldia-info h2{color:var(--texto-claro);margin-bottom:20px}
+.deldia-info h2 em{color:var(--dorado-brillo)}
+.deldia-producto{font-family:var(--serif);font-size:2.2rem;font-weight:700;color:var(--dorado-brillo);margin-bottom:12px}
+.deldia-desc{font-size:1rem;color:#d0c5b8;line-height:1.7;margin-bottom:28px}
+.deldia-precios{display:flex;align-items:baseline;gap:16px;margin-bottom:28px;flex-wrap:wrap}
+.deldia-ant{font-size:1.3rem;color:rgba(240,233,221,0.5);text-decoration:line-through}
+.deldia-act{font-family:var(--serif);font-size:3rem;font-weight:700;color:var(--dorado-brillo);line-height:1}
+.deldia-contador{margin-bottom:32px}
+.deldia-contador p{font-size:0.72rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--gris);font-weight:700;margin-bottom:14px}
+.contador{display:flex;gap:12px}
+.contador-item{background:rgba(0,0,0,0.35);border:1px solid var(--borde-oscuro);border-radius:10px;padding:14px 18px;text-align:center;min-width:78px}
+.contador-item strong{display:block;font-family:var(--serif);font-size:2rem;font-weight:700;color:var(--dorado-brillo);line-height:1}
+.contador-item span{font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gris);font-weight:600;margin-top:6px;display:block}
+.deldia-btn{display:inline-flex;align-items:center;gap:12px;background:linear-gradient(135deg,var(--dorado),var(--dorado-brillo));color:var(--vino-oscuro);padding:18px 40px;border-radius:10px;text-decoration:none;font-weight:800;font-size:0.9rem;letter-spacing:0.1em;text-transform:uppercase;transition:all .3s;box-shadow:0 16px 40px rgba(201,165,92,0.4)}
+.calc-section{background:linear-gradient(135deg,var(--carbon) 0%,var(--carbon-suave) 100%);color:var(--texto-claro);padding:120px 40px}
+.calc-inner{max-width:1100px;margin:0 auto}
+.calc-box{background:rgba(255,255,255,0.04);backdrop-filter:blur(20px);border:1px solid var(--borde-oscuro);border-radius:24px;padding:50px;margin-top:50px;display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
+.calc-controles{display:flex;flex-direction:column;gap:28px}
+.calc-label{font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gris);font-weight:700;margin-bottom:14px;display:block}
+.calc-num{display:flex;align-items:center;gap:20px;justify-content:center}
+.calc-num button{width:56px;height:56px;border-radius:50%;background:rgba(201,165,92,0.15);border:1.5px solid var(--dorado);color:var(--dorado-brillo);font-size:1.6rem;font-weight:700;display:flex;align-items:center;justify-content:center;transition:all .25s}
+.calc-num button:hover{background:var(--dorado);color:var(--vino-oscuro);transform:scale(1.08)}
+.calc-num input{width:110px;text-align:center;background:transparent;border:none;color:var(--texto-claro);font-family:var(--serif);font-size:3.5rem;font-weight:700;outline:none;-moz-appearance:textfield}
+.calc-num input::-webkit-outer-spin-button,.calc-num input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.calc-tipos{display:flex;gap:10px;flex-wrap:wrap}
+.calc-tipo{flex:1;padding:14px 18px;border-radius:10px;background:rgba(255,255,255,0.05);border:1.5px solid transparent;color:var(--texto-claro);font-size:0.85rem;font-weight:600;transition:all .25s;text-align:center}
+.calc-tipo.active{background:var(--dorado);color:var(--vino-oscuro);border-color:var(--dorado)}
+.calc-resultado{background:rgba(201,165,92,0.08);border:1px solid var(--dorado);border-radius:18px;padding:32px;text-align:center}
+.calc-resultado h4{font-family:var(--serif);font-size:1.3rem;color:var(--dorado-brillo);margin-bottom:20px;font-weight:600}
+.calc-items{list-style:none;padding:0;margin:0 0 22px;display:flex;flex-direction:column;gap:12px;text-align:left}
+.calc-items li{display:flex;justify-content:space-between;align-items:center;font-size:0.95rem;color:var(--texto-claro);padding:10px 0;border-bottom:1px dashed rgba(201,165,92,0.2)}
+.calc-items li:last-child{border-bottom:none}
+.calc-items li span:last-child{color:var(--dorado-brillo);font-weight:700;font-family:var(--serif);font-size:1.15rem}
+.calc-total{font-family:var(--serif);font-size:2rem;font-weight:700;color:var(--dorado-brillo);padding-top:16px;border-top:2px solid rgba(201,165,92,0.3);margin-bottom:20px}
+.calc-btn{display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,var(--dorado),var(--dorado-brillo));color:var(--vino-oscuro);padding:16px;border-radius:10px;text-decoration:none;font-weight:800;font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;transition:all .3s;width:100%}
+.proceso-video{position:relative;background:var(--carbon);color:var(--texto-claro);padding:140px 40px;overflow:hidden}
+.proceso-video-inner{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.proceso-video h2{color:var(--texto-claro);margin-bottom:24px}
+.proceso-video h2 em{color:var(--dorado-brillo)}
+.proceso-video .section-lead{color:#b8aba0;margin-bottom:40px}
+.proceso-steps{display:flex;flex-direction:column;gap:32px}
+.paso{display:flex;gap:24px;align-items:flex-start;padding:24px 0;border-bottom:1px solid rgba(201,165,92,0.12)}
+.paso:last-child{border-bottom:none}
+.paso-num{font-family:var(--serif);font-size:2.4rem;font-weight:700;color:transparent;-webkit-text-stroke:1.5px var(--dorado);line-height:1;flex-shrink:0;min-width:70px}
+.paso-info h3{font-family:var(--serif);font-size:1.4rem;font-weight:600;color:var(--texto-claro);margin-bottom:8px}
+.paso-info p{font-size:0.9rem;color:#a89c90;line-height:1.65}
+.video-frame{position:relative;aspect-ratio:4/5;border-radius:20px;overflow:hidden;border:1px solid rgba(201,165,92,0.3);box-shadow:0 60px 120px -30px rgba(0,0,0,0.8)}
+.video-frame video{width:100%;height:100%;object-fit:cover}
+.video-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:90px;height:90px;border-radius:50%;background:rgba(201,165,92,0.95);color:var(--vino-oscuro);display:flex;align-items:center;justify-content:center;font-size:1.8rem;z-index:2;cursor:pointer}
+.video-play::before{content:'▶';margin-left:4px}
+.testimonios{background:var(--crema)}
+.test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:60px}
+.test{background:#fff;padding:40px 34px;border-radius:16px;border:1px solid var(--borde-claro);position:relative;transition:transform .5s,box-shadow .5s}
+.test:hover{transform:translateY(-10px);box-shadow:0 50px 100px -30px rgba(74,14,14,0.4)}
+.test::before{content:'"';font-family:var(--serif);font-size:8rem;line-height:1;color:var(--dorado);opacity:0.25;position:absolute;top:0;right:30px;pointer-events:none}
+.test-stars{color:var(--dorado);letter-spacing:4px;margin-bottom:20px;font-size:1rem}
+.test p{color:#2a1f1a;font-size:0.98rem;line-height:1.75;margin-bottom:28px;font-style:italic;position:relative;z-index:1}
+.test-author{display:flex;align-items:center;gap:16px}
+.test-avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--vino),var(--vino-medio));color:var(--dorado-brillo);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem;flex-shrink:0;border:2px solid var(--dorado)}
+.test-author-info strong{display:block;color:var(--vino-oscuro);font-size:0.95rem;font-weight:700}
+.test-author-info span{font-size:0.78rem;color:var(--gris);letter-spacing:0.05em}
+.stats-parallax{position:relative;background:var(--carbon);color:var(--texto-claro);padding:140px 40px;text-align:center}
+.stats-inner{max-width:1200px;margin:0 auto}
+.stats-inner h2{font-family:var(--serif);font-size:clamp(2rem,4vw,3rem);font-weight:600;color:var(--texto-claro);margin-bottom:70px}
+.stats-inner h2 em{color:var(--dorado-brillo);font-style:italic;font-weight:500}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:44px}
+.stat{padding:0 20px;border-right:1px solid rgba(201,165,92,0.15)}
+.stat:last-child{border-right:none}
+.stat-num{font-family:var(--serif);font-size:clamp(2.8rem,5vw,4.2rem);font-weight:700;color:var(--dorado-brillo);line-height:1;display:block;margin-bottom:14px}
+.stat-label{font-size:0.78rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gris);font-weight:600}
+.nosotros-card{background:#fff;border-radius:24px;padding:80px 70px;text-align:center;max-width:960px;margin:0 auto;box-shadow:0 40px 100px -30px rgba(20,16,14,0.2);border-top:4px solid var(--dorado)}
+.nosotros-card p{font-family:var(--serif);font-size:1.45rem;line-height:1.7;color:#3a302a;font-style:italic;max-width:780px;margin:0 auto}
+.nosotros-card strong{color:var(--vino-oscuro);font-style:normal;font-weight:700}
+.contacto-section{background:linear-gradient(135deg,var(--vino-oscuro) 0%,var(--vino) 100%);padding:140px 40px;color:var(--texto-claro)}
+.contacto-inner{max-width:1200px;margin:0 auto}
+.contacto-section .eyebrow-line{color:var(--dorado-brillo)}
+.contacto-section .eyebrow-line::before,.contacto-section .eyebrow-line::after{background:var(--dorado-brillo)}
+.contacto-section h2{color:var(--texto-claro)}
+.contacto-section h2 em{color:var(--dorado-brillo)}
+.contacto-section .section-lead{color:rgba(240,233,221,0.8)}
+.contacto-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:60px}
+.contacto-card{background:rgba(255,255,255,0.06);backdrop-filter:blur(20px);padding:44px 28px;border-radius:16px;border:1px solid rgba(201,165,92,0.25);text-align:center;transition:all .4s}
+.contacto-card:hover{transform:translateY(-8px);background:rgba(255,255,255,0.1);border-color:var(--dorado-brillo)}
+.contacto-ico{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--dorado),var(--dorado-brillo));color:var(--vino-oscuro);display:flex;align-items:center;justify-content:center;font-size:1.7rem;margin:0 auto 22px}
+.contacto-card h4{font-family:var(--serif);font-size:1.2rem;font-weight:600;color:var(--dorado-brillo);margin-bottom:10px}
+.contacto-card p,.contacto-card a{color:rgba(240,233,221,0.85);font-size:0.92rem;text-decoration:none;line-height:1.5}
+.cta-final{background:linear-gradient(-45deg,var(--vino-oscuro),var(--vino),var(--vino-medio),var(--vino-oscuro));background-size:400% 400%;animation:gradientShift 15s ease infinite;color:var(--texto-claro);padding:140px 40px;text-align:center}
+@keyframes gradientShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.cta-inner{max-width:840px;margin:0 auto}
+.cta-final h2{font-family:var(--serif);font-size:clamp(2.4rem,5vw,3.8rem);font-weight:600;line-height:1.04;margin-bottom:28px}
+.cta-final h2 em{color:var(--dorado-brillo);font-style:italic;font-weight:500}
+.cta-final p{font-size:1.1rem;color:#d8cbc0;margin-bottom:50px;line-height:1.75}
+.horario-bar{background:var(--carbon-suave);color:var(--texto-claro);padding:60px 40px;border-top:1px solid var(--borde-oscuro)}
+.horario-inner{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:52px}
+.horario-title{font-family:var(--serif);font-size:1.9rem;font-weight:600;color:var(--dorado-brillo);line-height:1.1}
+.horario-title small{display:block;font-family:var(--sans);font-size:0.7rem;color:var(--gris);letter-spacing:0.3em;text-transform:uppercase;font-weight:600;margin-bottom:8px}
+.horario-dias{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;border-left:1px solid var(--borde-oscuro);padding-left:52px}
+.horario-dia strong{display:block;font-size:0.72rem;color:var(--gris);letter-spacing:0.2em;text-transform:uppercase;font-weight:600;margin-bottom:8px}
+.horario-dia span{font-family:var(--serif);font-size:1.2rem;color:var(--texto-claro);font-weight:500}
+.horario-badge{background:linear-gradient(135deg,var(--dorado),var(--dorado-brillo));color:var(--vino-oscuro);padding:12px 24px;border-radius:40px;font-size:0.72rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;display:inline-flex;align-items:center;gap:10px}
+.horario-badge::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--vino-oscuro);animation:pulseDot 1.6s infinite}
+.footer{background:var(--vino-oscuro);color:#a89c90;padding:80px 40px 40px}
+.footer-inner{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:64px;padding-bottom:60px;border-bottom:1px solid var(--borde-oscuro)}
+.footer-brand .brand-name{color:var(--texto-claro)}
+.footer-brand p{margin-top:22px;font-size:0.9rem;line-height:1.8;max-width:380px;color:#8a8078}
+.footer h5{color:var(--dorado-brillo);font-family:var(--serif);font-size:1.2rem;font-weight:600;margin-bottom:20px}
+.footer ul{list-style:none;display:flex;flex-direction:column;gap:12px}
+.footer a{color:#a89c90;text-decoration:none;font-size:0.9rem;transition:all .25s;display:inline-block}
+.footer a:hover{color:var(--dorado-brillo);transform:translateX(4px)}
+.footer-bottom{max-width:1400px;margin:0 auto;padding-top:32px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:0.82rem;color:#6b6157}
+.footer-bottom span{color:var(--dorado-brillo);font-weight:600}
+.wpp{position:fixed;bottom:30px;right:30px;width:62px;height:62px;border-radius:50%;background:#25d366;color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.8rem;text-decoration:none;box-shadow:0 12px 32px rgba(37,211,102,0.5);z-index:999;transition:transform .3s}
+.wpp:hover{transform:scale(1.15) rotate(8deg)}
+.cart-bar{position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,#2a0606,#4a0e0e);color:#fff;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;box-shadow:0 -8px 30px rgba(0,0,0,0.4);transform:translateY(100%);transition:transform .4s cubic-bezier(.4,0,.2,1);z-index:998;border-top:2px solid #c9a55c}
+.cart-bar.visible{transform:translateY(0)}
+.cart-bar-left{display:flex;align-items:center;gap:16px;cursor:pointer}
+.cart-icon{position:relative;width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#c9a55c,#e6c47a);display:flex;align-items:center;justify-content:center;font-size:1.4rem}
+.cart-count{position:absolute;top:-6px;right:-6px;background:#25d366;color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:800;border:2px solid #2a0606}
+.cart-info strong{display:block;font-size:0.95rem;font-weight:700}
+.cart-info span{font-size:0.78rem;color:rgba(240,233,221,0.8)}
+.cart-bar-total{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;color:#e6c47a;line-height:1}
+.cart-bar-total small{display:block;font-size:0.65rem;color:rgba(240,233,221,0.6);font-family:'Manrope',sans-serif;font-weight:500;margin-top:2px}
+.cart-bar-btn{background:#e6c47a;color:#2a0606;padding:14px 28px;border-radius:10px;font-weight:800;font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;border:none;cursor:pointer;white-space:nowrap}
+.cart-panel{position:fixed;top:0;right:0;bottom:0;width:100%;max-width:440px;background:#fff;box-shadow:-20px 0 60px rgba(0,0,0,0.3);transform:translateX(100%);transition:transform .4s cubic-bezier(.4,0,.2,1);z-index:1001;display:flex;flex-direction:column}
+.cart-panel.open{transform:translateX(0)}
+.cart-panel-header{background:linear-gradient(135deg,#2a0606,#4a0e0e);color:#fff;padding:24px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #c9a55c}
+.cart-panel-header h3{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;display:flex;align-items:center;gap:10px;margin:0}
+.cart-close{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,0.15);color:#fff;font-size:1.3rem;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer}
+.cart-panel-body{flex:1;overflow-y:auto;padding:20px}
+.cart-vacio{text-align:center;padding:60px 20px;color:#999}
+.cart-vacio .emoji{font-size:4rem;margin-bottom:16px;opacity:0.5}
+.cart-vacio p{font-size:0.95rem;line-height:1.6;margin:0}
+.cart-item{display:flex;gap:14px;padding:14px;background:#faf7f2;border-radius:12px;margin-bottom:12px;align-items:center;border:1px solid rgba(74,14,14,0.1)}
+.cart-item-img{width:64px;height:64px;border-radius:10px;overflow:hidden;background:#fff;flex-shrink:0;border:1px solid rgba(74,14,14,0.1)}
+.cart-item-img img{width:100%;height:100%;object-fit:contain;padding:4px}
+.cart-item-info{flex:1;min-width:0}
+.cart-item-info h4{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;color:#2a0606;margin:0 0 4px;line-height:1.3}
+.cart-item-info .item-precio{font-size:0.78rem;color:#4a0e0e;font-weight:700}
+.cart-item-cant{display:flex;align-items:center;gap:8px;margin-top:6px}
+.cart-item-cant button{width:26px;height:26px;border-radius:50%;background:#4a0e0e;color:#fff;font-weight:700;font-size:0.85rem;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer}
+.cart-item-cant span{font-weight:700;font-size:0.9rem;min-width:24px;text-align:center}
+.cart-item-del{width:32px;height:32px;border-radius:50%;background:transparent;color:#999;font-size:1.1rem;flex-shrink:0;border:none;cursor:pointer}
+.cart-item-del:hover{background:#ffe0e0;color:#c41e3a}
+.cart-panel-footer{padding:20px;border-top:2px solid rgba(74,14,14,0.1);background:#faf7f2}
+.cart-totales{margin-bottom:16px}
+.cart-total-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:0.9rem;color:#5a4f47}
+.cart-total-row.total{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;color:#2a0606;padding-top:12px;border-top:2px dashed rgba(74,14,14,0.1);margin-top:12px}
+.cart-total-row.total span:last-child{color:#4a0e0e}
+.cart-checkout{display:flex;align-items:center;justify-content:center;gap:10px;background:#25d366;color:#fff;padding:16px;border-radius:12px;font-weight:800;font-size:0.9rem;letter-spacing:0.08em;text-transform:uppercase;border:none;cursor:pointer;width:100%}
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);z-index:1000;opacity:0;visibility:hidden;transition:all .3s}
+.cart-overlay.open{opacity:1;visibility:visible}
+.pm-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);z-index:1002;opacity:0;visibility:hidden;transition:all .3s}
+.pm-overlay.open{opacity:1;visibility:visible}
+.pm-modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.9);background:#fff;border-radius:20px;padding:32px;width:90%;max-width:480px;z-index:1003;box-shadow:0 30px 80px rgba(0,0,0,0.5);transition:all .3s;max-height:90vh;overflow-y:auto}
+.pm-overlay.open .pm-modal{transform:translate(-50%,-50%) scale(1)}
+.pm-modal h3{font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:#2a0606;margin-bottom:8px;text-align:center}
+.pm-modal .pm-sub{text-align:center;color:#666;font-size:0.9rem;margin-bottom:24px}
+.pm-monto{background:#faf7f2;border:2px dashed #c9a55c;border-radius:12px;padding:20px;text-align:center;margin-bottom:20px}
+.pm-monto .label{font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:#8a8078;font-weight:600}
+.pm-monto .valor{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:700;color:#4a0e0e;line-height:1.1}
+.pm-monto .valor-usd{font-size:0.85rem;color:#8a8078;margin-top:4px}
+.pm-datos{background:#f0f7ff;border-left:4px solid #2563eb;padding:16px;border-radius:8px;margin-bottom:20px}
+.pm-datos .fila{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #e0e8f0;font-size:0.9rem;gap:10px}
+.pm-datos .fila:last-child{border-bottom:none}
+.pm-datos .etiqueta{color:#555;font-weight:500;flex-shrink:0}
+.pm-datos .dato{font-weight:700;color:#1e293b;font-family:monospace;font-size:0.92rem;cursor:pointer;text-align:right}
+.pm-acciones{display:flex;flex-direction:column;gap:10px}
+.pm-btn-wa{display:flex;align-items:center;justify-content:center;gap:10px;background:#25d366;color:#fff;padding:16px;border-radius:12px;font-weight:800;font-size:0.88rem;text-decoration:none;border:none;cursor:pointer;width:100%}
+.pm-btn-cerrar{background:transparent;color:#888;padding:12px;border-radius:8px;font-weight:600;border:1px solid #ddd;cursor:pointer;width:100%}
+.pm-nota{font-size:0.78rem;color:#999;text-align:center;margin-top:16px;line-height:1.5}
+.btn-pago-movil{display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;padding:16px;border-radius:12px;font-weight:800;font-size:0.88rem;letter-spacing:0.06em;text-transform:uppercase;border:none;cursor:pointer;width:100%;margin-top:10px}
+@media (max-width:1024px){.hero{min-height:auto;padding:140px 28px 100px}.cat-showcase{grid-template-columns:repeat(2,1fr)}.proceso-video-inner{grid-template-columns:1fr;gap:56px}.video-frame{max-width:500px;margin:0 auto}.test-grid{grid-template-columns:1fr}.stats-grid{grid-template-columns:repeat(2,1fr);gap:40px}.stat{border-right:none;border-bottom:1px solid rgba(201,165,92,0.15);padding-bottom:32px}.stat:nth-child(3),.stat:nth-child(4){border-bottom:none;padding-bottom:0}.contacto-grid{grid-template-columns:repeat(2,1fr)}.horario-inner{grid-template-columns:1fr;gap:36px;text-align:center}.horario-dias{border-left:none;padding-left:0;border-top:1px solid var(--borde-oscuro);padding-top:36px}.footer-inner{grid-template-columns:1fr;gap:44px}.nosotros-card{padding:60px 40px}.combos-grid{grid-template-columns:1fr}.calc-box{grid-template-columns:1fr;gap:36px;padding:36px}.deldia-inner{grid-template-columns:1fr;gap:40px}.deldia-media{max-width:400px;margin:0 auto}}
+@media (max-width:640px){.section{padding:90px 24px}.header{padding:0 20px}.header-inner{justify-content:center;padding:16px 0;gap:16px}.nav{gap:20px;font-size:0.8rem}.hero{padding:120px 24px 80px}.hero-actions{flex-direction:column;width:100%;max-width:320px;margin:0 auto}.btn-primary,.btn-secondary{width:100%;justify-content:center;padding:16px 24px;font-size:0.82rem}.cat-showcase{grid-template-columns:1fr}.stats-grid{grid-template-columns:1fr;gap:32px}.contacto-grid{grid-template-columns:1fr}.horario-dias{grid-template-columns:1fr}.marquee-item{font-size:1.1rem;gap:36px}.toolbar{flex-direction:column;align-items:stretch}.tabs{justify-content:center}.nosotros-card{padding:44px 28px}.nosotros-card p{font-size:1.05rem}.footer{padding:60px 24px 32px}.wpp{width:54px;height:54px;font-size:1.5rem;bottom:22px;right:22px}.featured,.proceso-video,.contacto-section,.cta-final{padding:100px 24px}.combos-section,.calc-section,.deldia-section{padding:80px 24px}.combo-ribbon{display:none}.calc-num input{font-size:2.5rem;width:80px}.calc-num button{width:48px;height:48px;font-size:1.3rem}.deldia-act{font-size:2.2rem}.contador-item{padding:10px 12px;min-width:60px}.contador-item strong{font-size:1.5rem}.cart-bar{padding:12px 16px;gap:12px}.cart-icon{width:42px;height:42px;font-size:1.2rem}.cart-info strong{font-size:0.82rem}.cart-info span{font-size:0.68rem}.cart-bar-total{font-size:1.3rem}.cart-bar-btn{padding:12px 18px;font-size:0.75rem}.cart-panel{max-width:100%}.pm-modal{padding:24px;width:95%}.pm-monto .valor{font-size:1.9rem}}
 </style>
 </head>
 <body>
 
 <div class="progress-bar" id="progressBar"></div>
-<div class="cursor" id="cursor"></div>
-<div class="cursor-dot" id="cursorDot"></div>
 
 <header class="header" id="header">
   <div class="header-inner">
-    <a href="#inicio" class="brand">
-      <div class="brand-mark">🥩</div>
-      <div class="brand-name">
-        <small>Carnicería Artesanal</small>
-        El Buen Corte
-      </div>
-    </a>
+    <a href="#inicio" class="brand"><div class="brand-mark">🥩</div><div class="brand-name"><small>Carnicería Artesanal</small>El Buen Corte</div></a>
     <ul class="nav">
       <li><a href="#productos">Productos</a></li>
+      <li><a href="#combos">Combos</a></li>
       <li><a href="#categorias">Categorías</a></li>
       <li><a href="#proceso">Cómo pedir</a></li>
-      <li><a href="#nosotros">Nosotros</a></li>
       <li><a href="#contacto">Contacto</a></li>
     </ul>
-    <a href="https://wa.me/521234567890?text=Hola,%20quiero%20hacer%20un%20pedido" class="header-cta" target="_blank">💬 Pedir ahora</a>
+    <a href="https://wa.me/584127575553?text=Hola,%20quiero%20hacer%20un%20pedido" class="header-cta" target="_blank">💬 Pedir ahora</a>
   </div>
 </header>
 
 <section class="hero" id="inicio">
-  <video class="hero-video" autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1603048297172-c92544798d5a?w=1920&q=85">
-    <source src="https://videos.pexels.com/video-files/3195650/3195650-hd_1920_1080_25fps.mp4" type="video/mp4">
-  </video>
-  <div class="hero-particles">
-    <span class="particle"></span><span class="particle"></span><span class="particle"></span>
-    <span class="particle"></span><span class="particle"></span><span class="particle"></span>
-  </div>
+  <video class="hero-video" autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1603048297172-c92544798d5a?w=1920&q=85"><source src="https://videos.pexels.com/video-files/3195650/3195650-hd_1920_1080_25fps.mp4" type="video/mp4"></video>
   <div class="hero-content">
     <div class="hero-eyebrow">Desde 2004 · Calidad Premium</div>
-    <h1>
-      <span class="line">El arte de la</span>
-      <span class="line"><em>buena carne</em>,</span>
-      <span class="line">directo a tu mesa</span>
-    </h1>
+    <h1>El arte de la <em>buena carne</em>, directo a tu mesa</h1>
     <p class="hero-lead">Cortes seleccionados a mano, pollo fresco del día y embutidos de las mejores marcas. Pide por WhatsApp y recibe en casa con la frescura que solo un maestro carnicero puede garantizar.</p>
     <div class="hero-actions">
       <a href="#productos" class="btn-primary">Ver catálogo →</a>
-      <a href="https://wa.me/521234567890?text=Hola,%20quiero%20hacer%20un%20pedido" class="btn-secondary" target="_blank">💬 Pedir por WhatsApp</a>
+      <a href="https://wa.me/584127575553?text=Hola,%20quiero%20hacer%20un%20pedido" class="btn-secondary" target="_blank">💬 Pedir por WhatsApp</a>
     </div>
   </div>
 </section>
 
 <div class="marquee">
   <div class="marquee-track">
-    <div class="marquee-item">Frescura garantizada</div>
-    <div class="marquee-item">Cortes selectos</div>
-    <div class="marquee-item">Entrega a domicilio</div>
-    <div class="marquee-item">+20 años de oficio</div>
-    <div class="marquee-item">Pollo del día</div>
-    <div class="marquee-item">Marcas reconocidas</div>
-    <div class="marquee-item">Frescura garantizada</div>
-    <div class="marquee-item">Cortes selectos</div>
-    <div class="marquee-item">Entrega a domicilio</div>
-    <div class="marquee-item">+20 años de oficio</div>
-    <div class="marquee-item">Pollo del día</div>
-    <div class="marquee-item">Marcas reconocidas</div>
+    <div class="marquee-item">Frescura garantizada</div><div class="marquee-item">Cortes selectos</div><div class="marquee-item">Entrega a domicilio</div><div class="marquee-item">+20 años de oficio</div><div class="marquee-item">Pollo del día</div><div class="marquee-item">Marcas reconocidas</div>
+    <div class="marquee-item">Frescura garantizada</div><div class="marquee-item">Cortes selectos</div><div class="marquee-item">Entrega a domicilio</div><div class="marquee-item">+20 años de oficio</div><div class="marquee-item">Pollo del día</div><div class="marquee-item">Marcas reconocidas</div>
   </div>
 </div>
-
-<section class="featured">
-  <div class="featured-inner">
-    <div class="section-head center">
-      <div class="eyebrow-line">Selección del maestro</div>
-      <h2>Los favoritos de <em>nuestra casa</em></h2>
-      <p class="section-lead">Los cortes que nuestros clientes piden una y otra vez. Calidad que se reconoce desde el primer bocado.</p>
-    </div>
-    <div class="featured-grid">
-      <div class="tilt-card">
-        <div class="tilt-card-inner">
-          <div class="tilt-media">
-            <span class="tilt-tag">Más vendido</span>
-            <img src="https://images.unsplash.com/photo-1603048297172-c92544798d5a?w=800&q=80" alt="Carne de res premium" onerror="this.style.display='none'">
-          </div>
-          <div class="tilt-body">
-            <h3>Carne de Res Premium</h3>
-            <p>Corte selecto de res de primera calidad, marmoleo perfecto y textura inigualable.</p>
-            <div class="tilt-row">
-              <div class="tilt-price" data-price-usd="12.00">$12.00 <small>/ kg</small><span class="price-ves"></span></div>
-              <a href="https://wa.me/521234567890?text=Hola,%20quiero%20pedir%20Carne%20de%20Res" class="tilt-btn" target="_blank">Pedir</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="tilt-card">
-        <div class="tilt-card-inner">
-          <div class="tilt-media">
-            <span class="tilt-tag">Del día</span>
-            <img src="https://images.unsplash.com/photo-1587593810167-a84920ea0781?w=800&q=80" alt="Pollo entero fresco" onerror="this.style.display='none'">
-          </div>
-          <div class="tilt-body">
-            <h3>Pollo Entero Fresco</h3>
-            <p>Pollo fresco de granja, criado sin hormonas. Limpio y listo para cocinar.</p>
-            <div class="tilt-row">
-              <div class="tilt-price" data-price-usd="3.00">$3.00 <small>/ kg</small><span class="price-ves"></span></div>
-              <a href="https://wa.me/521234567890?text=Hola,%20quiero%20pedir%20Pollo%20Entero" class="tilt-btn" target="_blank">Pedir</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="tilt-card">
-        <div class="tilt-card-inner">
-          <div class="tilt-media">
-            <span class="tilt-tag">Recomendado</span>
-            <img src="https://i.postimg.cc/K4T4rtSv/chuleta-de-cochino.jpg" alt="Chuleta de cochino" onerror="this.style.display='none'">
-          </div>
-          <div class="tilt-body">
-            <h3>Chuleta de Cochino</h3>
-            <p>Corte grueso y jugoso, con el balance perfecto de grasa y carne.</p>
-            <div class="tilt-row">
-              <div class="tilt-price" data-price-usd="7.00">$7.00 <small>/ kg</small><span class="price-ves"></span></div>
-              <a href="https://wa.me/521234567890?text=Hola,%20quiero%20pedir%20Chuleta%20de%20Cochino" class="tilt-btn" target="_blank">Pedir</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <section class="section" id="categorias">
   <div class="section-head center">
@@ -436,42 +367,10 @@ video{display:block;}
     <p class="section-lead">Desde el corte más selecto hasta los abastos del día. Una carnicería completa, con la calidad de siempre.</p>
   </div>
   <div class="cat-showcase">
-    <a href="#productos" class="cat-tile">
-      <img src="https://images.unsplash.com/photo-1603048297172-c92544798d5a?w=800&q=80" alt="Carnes frescas" onerror="this.style.display='none'">
-      <div class="cat-tile-body">
-        <div class="cat-num">01</div>
-        <h3>Carnes Frescas</h3>
-        <p>Res, cerdo, costilla, vísceras y cortes selectos del día.</p>
-        <span>Ver productos →</span>
-      </div>
-    </a>
-    <a href="#productos" class="cat-tile">
-      <img src="https://images.unsplash.com/photo-1587593810167-a84920ea0781?w=800&q=80" alt="Pollo fresco" onerror="this.style.display='none'">
-      <div class="cat-tile-body">
-        <div class="cat-num">02</div>
-        <h3>Pollo Fresco</h3>
-        <p>Entero, en piezas, pechuga, muslos y alas. Del día.</p>
-        <span>Ver productos →</span>
-      </div>
-    </a>
-    <a href="#productos" class="cat-tile">
-      <img src="https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=800&q=80" alt="Embutidos y quesos" onerror="this.style.display='none'">
-      <div class="cat-tile-body">
-        <div class="cat-num">03</div>
-        <h3>Embutidos y Quesos</h3>
-        <p>Queso, jamón, mortadelas, salchichas y calabresa.</p>
-        <span>Ver productos →</span>
-      </div>
-    </a>
-    <a href="#productos" class="cat-tile">
-      <img src="https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=800&q=80" alt="Abastos" onerror="this.style.display='none'">
-      <div class="cat-tile-body">
-        <div class="cat-num">04</div>
-        <h3>Abastos</h3>
-        <p>Aceite, mantequilla, harina y arroz. Lo básico, listo.</p>
-        <span>Ver productos →</span>
-      </div>
-    </a>
+    <a href="#productos" class="cat-tile"><img src="https://images.unsplash.com/photo-1603048297172-c92544798d5a?w=800&q=80" alt="Carnes" onerror="this.style.display='none'"><div class="cat-tile-body"><div class="cat-num">01</div><h3>Carnes Frescas</h3><p>Res, cerdo, costilla, vísceras y cortes selectos del día.</p><span>Ver productos →</span></div></a>
+    <a href="#productos" class="cat-tile"><img src="https://images.unsplash.com/photo-1587593810167-a84920ea0781?w=800&q=80" alt="Pollo" onerror="this.style.display='none'"><div class="cat-tile-body"><div class="cat-num">02</div><h3>Pollo Fresco</h3><p>Entero, en piezas, pechuga, muslos y alas. Del día.</p><span>Ver productos →</span></div></a>
+    <a href="#productos" class="cat-tile"><img src="https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=800&q=80" alt="Embutidos" onerror="this.style.display='none'"><div class="cat-tile-body"><div class="cat-num">03</div><h3>Embutidos y Quesos</h3><p>Queso, jamón, mortadelas, salchichas y calabresa.</p><span>Ver productos →</span></div></a>
+    <a href="#productos" class="cat-tile"><img src="https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=800&q=80" alt="Abastos" onerror="this.style.display='none'"><div class="cat-tile-body"><div class="cat-num">04</div><h3>Abastos</h3><p>Aceite, mantequilla, harina y arroz. Lo básico, listo.</p><span>Ver productos →</span></div></a>
   </div>
 </section>
 
@@ -479,9 +378,8 @@ video{display:block;}
   <div class="section-head center">
     <div class="eyebrow-line">Catálogo completo</div>
     <h2>Nuestros <em>productos</em></h2>
-    <p class="section-lead">Pasa el cursor sobre cualquier producto para ver los detalles. Un clic y tu pedido llega por WhatsApp.</p>
+    <p class="section-lead">Pasa el cursor sobre cualquier producto para agregar al carrito o pedir directo.</p>
   </div>
-
   <div class="toolbar">
     <div class="tabs" id="tabs">
       <button class="tab active" data-tab="todos">Todos</button>
@@ -490,391 +388,108 @@ video{display:block;}
       <button class="tab" data-tab="embutidos">Embutidos</button>
       <button class="tab" data-tab="abastos">Abastos</button>
     </div>
-    <div class="search-wrap">
-      <input type="text" id="search" class="search" placeholder="Buscar producto...">
-    </div>
+    <div class="search-wrap"><input type="text" id="search" class="search" placeholder="Buscar producto..."></div>
   </div>
-
   <div id="catalogo">
-
     <h3 class="cat-title" data-cat="carnes">🥩 Carnes Frescas</h3>
     <div class="grid" data-group="carnes">
-
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="flip-front">
-            <div class="flip-media"><span class="flip-badge">Fresco</span>
-              <img src="https://images.unsplash.com/photo-1603048297172-c92544798d5a?w=600&q=80" alt="Carne de res" onerror="this.remove()">
-            </div>
-            <div class="flip-front-info"><h3>Carne de Res</h3><div class="flip-price" data-price-usd="12.00">$12.00 <small>/ kg</small><span class="price-ves"></span></div></div>
-            <div class="flip-front-hint">↻</div>
-          </div>
-          <div class="flip-back">
-            <div><div class="back-cat">Carnes Frescas</div><h3>Carne de Res</h3><p>Corte selecto de primera calidad. Ideal para parrilla, guisos o mechada. Fresca del día.</p></div>
-            <div><div class="back-price" data-price-usd="12.00">$12.00 <small>/ kg</small><span class="price-ves"></span></div><a href="https://wa.me/521234567890?text=Hola,%20quiero%20pedir%20Carne%20de%20Res" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="flip-front">
-            <div class="flip-media"><span class="flip-badge">Fresco</span>
-              <img src="https://images.unsplash.com/photo-1615937691194-97dbd3f3dc29?w=600&q=80" alt="Chuleta" onerror="this.remove()">
-            </div>
-            <div class="flip-front-info"><h3>Chuleta</h3><div class="flip-price" data-price-usd="7.00">$7.00 <small>/ kg</small><span class="price-ves"></span></div></div>
-            <div class="flip-front-hint">↻</div>
-          </div>
-          <div class="flip-back">
-            <div><div class="back-cat">Carnes Frescas</div><h3>Chuleta</h3><p>Corte grueso y jugoso. Perfecta para la plancha, parrilla o al horno.</p></div>
-            <div><div class="back-price" data-price-usd="7.00">$7.00 <small>/ kg</small><span class="price-ves"></span></div><a href="https://wa.me/521234567890?text=Hola,%20quiero%20pedir%20Chuleta" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="flip-front">
-            <div class="flip-media"><span class="flip-badge">Fresco</span>
-              <img src="https://i.postimg.cc/K4T4rtSv/chuleta-de-cochino.jpg" alt="Chuleta de Cochino" onerror="this.remove()">
-            </div>
-            <div class="flip-front-info"><h3>Chuleta de Cochino</h3><div class="flip-price" data-price-usd="7.00">$7.00 <small>/ kg</small><span class="price-ves"></span></div></div>
-            <div class="flip-front-hint">↻</div>
-          </div>
-          <div class="flip-back">
-            <div><div class="back-cat">Carnes Frescas</div><h3>Chuleta de Cochino</h3><p>Corte grueso y jugoso de cerdo. Ideal a la plancha.</p></div>
-            <div><div class="back-price" data-price-usd="7.00">$7.00 <small>/ kg</small><span class="price-ves"></span></div><a href="https://wa.me/521234567890?text=Hola,%20quiero%20pedir%20Chuleta%20de%20Cochino" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="flip-front">
-            <div class="flip-media"><span class="flip-badge">Ahumado</span>
-              <img src="https://i.postimg.cc/fJjL1ZRt/chuleta-humada.webp" alt="Chuleta Ahumada" onerror="this.remove()">
-            </div>
-            <div class="flip-front-info"><h3>Chuleta Ahumada</h3><div class="flip-price" data-price-usd="7.50">$7.50 <small>/ kg</small><span class="price-ves"></span></div></div>
-            <div class="flip-front-hint">↻</div>
-          </div>
-          <div class="flip-back">
-            <div><div class="back-cat">Carnes Frescas</div><h3>Chuleta Ahumada</h3><p>Corte ahumado con ese toque característico. Perfecta para desayunos.</p></div>
-            <div><div class="back-price" data-price-usd="7.50">$7.50 <small>/ kg</small><span class="price-ves"></span></div><a href="https://wa.me/521234567890?text=Hola,%20quiero%20pedir%20Chuleta%20Ahumada" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="flip-front">
-            <div class="flip-media"><span class="flip-badge">Fresco</span>
-              <img src="https://i.postimg.cc/vcdTPDbG/costilla-de-red.jpg" alt="Costilla de Res" onerror="this.remove()">
-            </div>
-            <div class="flip-front-info"><h3>Costilla de Res</h3><div class="flip-price" data-price-usd="9.00">$9.00 <small>/ kg</small><span class="price-ves"></span></div></div>
-            <div class="flip-front-hint">↻</div>
-          </div>
-          <div class="flip-back">
-            <div><div class="back-cat">Carnes Frescas</div><h3>Costilla de Res</h3><p>Costilla carnosa, perfecta para BBQ o al horno.</p></div>
-            <div><div class="back-price" data-price-usd="9.00">$9.00 <small>/ kg</small><span class="price-ves"></span></div><a href="https://wa.me/521234567890?text=Hola,%20quiero%20pedir%20Costilla%20de%20Res" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div>
-          </div>
-        </div>
-      </div>
-
+      <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-media"><span class="flip-badge">Fresco</span><img src="https://images.unsplash.com/photo-1603048297172-c92544798d5a?w=600&q=80" alt="" onerror="this.remove()"></div><div class="flip-front-info"><h3>Carne de Res</h3><div class="flip-price" data-price-usd="12.00">$12.00 <small>/ kg</small><span class="price-ves"></span></div></div><div class="flip-front-hint">↻</div></div><div class="flip-back"><div><div class="back-cat">Carnes Frescas</div><h3>Carne de Res</h3><p>Corte selecto de primera calidad. Ideal para parrilla, guisos o mechada. Fresca del día.</p></div><div><div class="back-price" data-price-usd="12.00">$12.00 <small>/ kg</small><span class="price-ves"></span></div><a href="https://wa.me/584127575553?text=Hola,%20quiero%20pedir%20Carne%20de%20Res" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div></div></div></div>
+      <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-media"><span class="flip-badge">Fresco</span><img src="https://images.unsplash.com/photo-1615937691194-97dbd3f3dc29?w=600&q=80" alt="" onerror="this.remove()"></div><div class="flip-front-info"><h3>Chuleta</h3><div class="flip-price" data-price-usd="7.00">$7.00 <small>/ kg</small><span class="price-ves"></span></div></div><div class="flip-front-hint">↻</div></div><div class="flip-back"><div><div class="back-cat">Carnes Frescas</div><h3>Chuleta</h3><p>Corte grueso y jugoso. Perfecta para la plancha, parrilla o al horno.</p></div><div><div class="back-price" data-price-usd="7.00">$7.00 <small>/ kg</small><span class="price-ves"></span></div><a href="https://wa.me/584127575553?text=Hola,%20quiero%20pedir%20Chuleta" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div></div></div></div>
+      <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-media"><span class="flip-badge">Fresco</span><img src="https://i.postimg.cc/K4T4rtSv/chuleta-de-cochino.jpg" alt="" onerror="this.remove()"></div><div class="flip-front-info"><h3>Chuleta de Cochino</h3><div class="flip-price" data-price-usd="7.00">$7.00 <small>/ kg</small><span class="price-ves"></span></div></div><div class="flip-front-hint">↻</div></div><div class="flip-back"><div><div class="back-cat">Carnes Frescas</div><h3>Chuleta de Cochino</h3><p>Corte grueso y jugoso de cerdo. Ideal a la plancha.</p></div><div><div class="back-price" data-price-usd="7.00">$7.00 <small>/ kg</small><span class="price-ves"></span></div><a href="https://wa.me/584127575553?text=Hola,%20quiero%20pedir%20Chuleta%20de%20Cochino" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div></div></div></div>
+      <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-media"><span class="flip-badge">Ahumado</span><img src="https://i.postimg.cc/fJjL1ZRt/chuleta-humada.webp" alt="" onerror="this.remove()"></div><div class="flip-front-info"><h3>Chuleta Ahumada</h3><div class="flip-price" data-price-usd="7.50">$7.50 <small>/ kg</small><span class="price-ves"></span></div></div><div class="flip-front-hint">↻</div></div><div class="flip-back"><div><div class="back-cat">Carnes Frescas</div><h3>Chuleta Ahumada</h3><p>Corte ahumado con ese toque característico. Perfecta para desayunos.</p></div><div><div class="back-price" data-price-usd="7.50">$7.50 <small>/ kg</small><span class="price-ves"></span></div><a href="https://wa.me/584127575553?text=Hola,%20quiero%20pedir%20Chuleta%20Ahumada" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div></div></div></div>
+      <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-media"><span class="flip-badge">Fresco</span><img src="https://i.postimg.cc/vcdTPDbG/costilla-de-red.jpg" alt="" onerror="this.remove()"></div><div class="flip-front-info"><h3>Costilla de Res</h3><div class="flip-price" data-price-usd="9.00">$9.00 <small>/ kg</small><span class="price-ves"></span></div></div><div class="flip-front-hint">↻</div></div><div class="flip-back"><div><div class="back-cat">Carnes Frescas</div><h3>Costilla de Res</h3><p>Costilla carnosa, perfecta para BBQ o al horno.</p></div><div><div class="back-price" data-price-usd="9.00">$9.00 <small>/ kg</small><span class="price-ves"></span></div><a href="https://wa.me/584127575553?text=Hola,%20quiero%20pedir%20Costilla%20de%20Res" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div></div></div></div>
     </div>
 
     <h3 class="cat-title" data-cat="pollo">🍗 Pollo Fresco</h3>
     <div class="grid" data-group="pollo">
-
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="flip-front">
-            <div class="flip-media"><span class="flip-badge">Del día</span>
-              <img src="https://images.unsplash.com/photo-1587593810167-a84920ea0781?w=600&q=80" alt="Pollo entero" onerror="this.remove()">
-            </div>
-            <div class="flip-front-info"><h3>Pollo Entero</h3><div class="flip-price" data-price-usd="3.00">$3.00 <small>/ kg</small><span class="price-ves"></span></div></div>
-            <div class="flip-front-hint">↻</div>
-          </div>
-          <div class="flip-back">
-            <div><div class="back-cat">Pollo Fresco</div><h3>Pollo Entero</h3><p>Pollo fresco de granja, limpio y listo para cocinar. Sin hormonas.</p></div>
-            <div><div class="back-price" data-price-usd="3.00">$3.00 <small>/ kg</small><span class="price-ves"></span></div><a href="https://wa.me/521234567890?text=Hola,%20quiero%20pedir%20Pollo%20Entero" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="flip-front">
-            <div class="flip-media"><span class="flip-badge">Del día</span>
-              <img src="https://i.postimg.cc/w7dMW3gd/pollo-picado.jpg" alt="Pollo Picado" onerror="this.remove()">
-            </div>
-            <div class="flip-front-info"><h3>Pollo Picado</h3><div class="flip-price" data-price-usd="3.50">$3.50 <small>/ kg</small><span class="price-ves"></span></div></div>
-            <div class="flip-front-hint">↻</div>
-          </div>
-          <div class="flip-back">
-            <div><div class="back-cat">Pollo Fresco</div><h3>Pollo Picado</h3><p>Pollo en piezas, listo para cocinar. Ideal para guisos y arroces.</p></div>
-            <div><div class="back-price" data-price-usd="3.50">$3.50 <small>/ kg</small><span class="price-ves"></span></div><a href="https://wa.me/521234567890?text=Hola,%20quiero%20pedir%20Pollo%20Picado" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="flip-front">
-            <div class="flip-media"><span class="flip-badge">Del día</span>
-              <img src="https://images.unsplash.com/photo-1604503468506-a8da13d82791?w=600&q=80" alt="Pechuga" onerror="this.remove()">
-            </div>
-            <div class="flip-front-info"><h3>Pechuga de Pollo</h3><div class="flip-price" data-price-usd="6.80">$6.80 <small>/ kg</small><span class="price-ves"></span></div></div>
-            <div class="flip-front-hint">↻</div>
-          </div>
-          <div class="flip-back">
-            <div><div class="back-cat">Pollo Fresco</div><h3>Pechuga de Pollo</h3><p>Pechuga magra y jugosa. Ideal a la plancha o empanizada.</p></div>
-            <div><div class="back-price" data-price-usd="6.80">$6.80 <small>/ kg</small><span class="price-ves"></span></div><a href="https://wa.me/521234567890?text=Hola,%20quiero%20pedir%20Pechuga%20de%20Pollo" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div>
-          </div>
-        </div>
-      </div>
-
+      <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-media"><span class="flip-badge">Del día</span><img src="https://images.unsplash.com/photo-1587593810167-a84920ea0781?w=600&q=80" alt="" onerror="this.remove()"></div><div class="flip-front-info"><h3>Pollo Entero</h3><div class="flip-price" data-price-usd="3.00">$3.00 <small>/ kg</small><span class="price-ves"></span></div></div><div class="flip-front-hint">↻</div></div><div class="flip-back"><div><div class="back-cat">Pollo Fresco</div><h3>Pollo Entero</h3><p>Pollo fresco de granja, limpio y listo para cocinar. Sin hormonas.</p></div><div><div class="back-price" data-price-usd="3.00">$3.00 <small>/ kg</small><span class="price-ves"></span></div><a href="https://wa.me/584127575553?text=Hola,%20quiero%20pedir%20Pollo%20Entero" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div></div></div></div>
+      <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-media"><span class="flip-badge">Del día</span><img src="https://i.postimg.cc/w7dMW3gd/pollo-picado.jpg" alt="" onerror="this.remove()"></div><div class="flip-front-info"><h3>Pollo Picado</h3><div class="flip-price" data-price-usd="3.50">$3.50 <small>/ kg</small><span class="price-ves"></span></div></div><div class="flip-front-hint">↻</div></div><div class="flip-back"><div><div class="back-cat">Pollo Fresco</div><h3>Pollo Picado</h3><p>Pollo en piezas, listo para cocinar. Ideal para guisos y arroces.</p></div><div><div class="back-price" data-price-usd="3.50">$3.50 <small>/ kg</small><span class="price-ves"></span></div><a href="https://wa.me/584127575553?text=Hola,%20quiero%20pedir%20Pollo%20Picado" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div></div></div></div>
+      <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-media"><span class="flip-badge">Del día</span><img src="https://images.unsplash.com/photo-1604503468506-a8da13d82791?w=600&q=80" alt="" onerror="this.remove()"></div><div class="flip-front-info"><h3>Pechuga de Pollo</h3><div class="flip-price" data-price-usd="6.80">$6.80 <small>/ kg</small><span class="price-ves"></span></div></div><div class="flip-front-hint">↻</div></div><div class="flip-back"><div><div class="back-cat">Pollo Fresco</div><h3>Pechuga de Pollo</h3><p>Pechuga magra y jugosa. Ideal a la plancha o empanizada.</p></div><div><div class="back-price" data-price-usd="6.80">$6.80 <small>/ kg</small><span class="price-ves"></span></div><a href="https://wa.me/584127575553?text=Hola,%20quiero%20pedir%20Pechuga%20de%20Pollo" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div></div></div></div>
     </div>
 
     <h3 class="cat-title" data-cat="embutidos">🧀 Embutidos y Quesos</h3>
     <div class="grid" data-group="embutidos">
-
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="flip-front">
-            <div class="flip-media"><span class="flip-badge">Del día</span>
-              <img src="https://i.postimg.cc/Yhw0XjMr/queso-duro.jpg" alt="Queso Duro" onerror="this.remove()">
-            </div>
-            <div class="flip-front-info"><h3>Queso Duro</h3><div class="flip-price" data-price-usd="8.00">$8.00 <small>/ kg</small><span class="price-ves"></span></div></div>
-            <div class="flip-front-hint">↻</div>
-          </div>
-          <div class="flip-back">
-            <div><div class="back-cat">Embutidos y Quesos</div><h3>Queso Duro</h3><p>Queso duro artesanal, ideal para rallar, para arepas o para acompañar tus comidas.</p></div>
-            <div><div class="back-price" data-price-usd="8.00">$8.00 <small>/ kg</small><span class="price-ves"></span></div><a href="https://wa.me/521234567890?text=Hola,%20quiero%20pedir%20Queso%20Duro" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="flip-front">
-            <div class="flip-media"><span class="flip-badge">Del día</span>
-              <img src="https://i.postimg.cc/F7QzP1NY/jamon-don-ramon.jpg" alt="Jamón Don Ramón" onerror="this.remove()">
-            </div>
-            <div class="flip-front-info"><h3>Jamón Don Ramón</h3><div class="flip-price" data-price-usd="8.00">$8.00 <small>/ kg</small><span class="price-ves"></span></div></div>
-            <div class="flip-front-hint">↻</div>
-          </div>
-          <div class="flip-back">
-            <div><div class="back-cat">Embutidos y Quesos</div><h3>Jamón Don Ramón</h3><p>Jamón cocido de calidad Don Ramón, en lonjas finas. Perfecto para sándwiches y desayunos.</p></div>
-            <div><div class="back-price" data-price-usd="8.00">$8.00 <small>/ kg</small><span class="price-ves"></span></div><a href="https://wa.me/521234567890?text=Hola,%20quiero%20pedir%20Jamón%20Don%20Ramón" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ALIBAL 1KG ACTUALIZADO $3.50 -->
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="flip-front">
-            <div class="flip-media"><span class="flip-badge">Marca</span>
-              <img src="https://i.postimg.cc/3dDN1ps8/mortadela-alibal-de-1kg.jpg" alt="Mortadela Alíbal 1 Kg" onerror="this.remove()">
-            </div>
-            <div class="flip-front-info"><h3>Mortadela Alíbal 1 Kg</h3><div class="flip-price" data-price-usd="3.50">$3.50 <small>/ kg</small><span class="price-ves"></span></div></div>
-            <div class="flip-front-hint">↻</div>
-          </div>
-          <div class="flip-back">
-            <div><div class="back-cat">Embutidos y Quesos</div><h3>Mortadela Alíbal 1 Kg</h3><p>Mortadela de pollo especial Alíbal. Peso: 1 Kg. Purolomo. CPE: CPE1221510717.</p></div>
-            <div><div class="back-price" data-price-usd="3.50">$3.50 <small>/ kg</small><span class="price-ves"></span></div><a href="https://wa.me/521234567890?text=Hola,%20quiero%20pedir%20Mortadela%20Alíbal%201%20Kg" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ALIBAL 500G ACTUALIZADO $2.00 -->
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="flip-front">
-            <div class="flip-media"><span class="flip-badge">Marca</span>
-              <img src="https://i.postimg.cc/PCsxRJHj/mortadela-alibal-500g.jpg" alt="Mortadela Alíbal 500g" onerror="this.remove()">
-            </div>
-            <div class="flip-front-info"><h3>Mortadela Alíbal 500g</h3><div class="flip-price" data-price-usd="2.00">$2.00 <small>/ 500g</small><span class="price-ves"></span></div></div>
-            <div class="flip-front-hint">↻</div>
-          </div>
-          <div class="flip-back">
-            <div><div class="back-cat">Embutidos y Quesos</div><h3>Mortadela Alíbal 500g</h3><p>Mortadela de pollo especial Alíbal. Peso: 500g. Purolomo. CPE: CPE0522517548.</p></div>
-            <div><div class="back-price" data-price-usd="2.00">$2.00 <small>/ 500g</small><span class="price-ves"></span></div><a href="https://wa.me/521234567890?text=Hola,%20quiero%20pedir%20Mortadela%20Alíbal%20500g" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- PUNTA DE MONTE 500G ACTUALIZADO $2.60 -->
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="flip-front">
-            <div class="flip-media"><span class="flip-badge">Marca</span>
-              <img src="https://i.postimg.cc/WdL3HzVT/mortadela-punta-de-monte-500g.jpg" alt="Mortadela Punta de Monte 500g" onerror="this.remove()">
-            </div>
-            <div class="flip-front-info"><h3>Mortadela Punta de Monte 500g</h3><div class="flip-price" data-price-usd="2.60">$2.60 <small>/ 500g</small><span class="price-ves"></span></div></div>
-            <div class="flip-front-hint">↻</div>
-          </div>
-          <div class="flip-back">
-            <div><div class="back-cat">Embutidos y Quesos</div><h3>Mortadela Punta de Monte 500g</h3><p>Mortadela de pollo especial Punta de Monte. Peso: 500g. Purolomo. CPE: CPE1221510718.</p></div>
-            <div><div class="back-price" data-price-usd="2.60">$2.60 <small>/ 500g</small><span class="price-ves"></span></div><a href="https://wa.me/521234567890?text=Hola,%20quiero%20pedir%20Mortadela%20Punta%20de%20Monte%20500g" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- PUNTA DE MONTE 1KG ACTUALIZADO $4.60 -->
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="flip-front">
-            <div class="flip-media"><span class="flip-badge">Marca</span>
-              <img src="https://i.postimg.cc/0zRQBjv8/mortadela-punta-de-monte-1-kg.jpg" alt="Mortadela Punta de Monte 1 Kg" onerror="this.remove()">
-            </div>
-            <div class="flip-front-info"><h3>Mortadela Punta de Monte 1 Kg</h3><div class="flip-price" data-price-usd="4.60">$4.60 <small>/ kg</small><span class="price-ves"></span></div></div>
-            <div class="flip-front-hint">↻</div>
-          </div>
-          <div class="flip-back">
-            <div><div class="back-cat">Embutidos y Quesos</div><h3>Mortadela Punta de Monte 1 Kg</h3><p>Mortadela de pollo especial Punta de Monte. Peso: 1 Kg. Purolomo. CPE: CPE1221510720.</p></div>
-            <div><div class="back-price" data-price-usd="4.60">$4.60 <small>/ kg</small><span class="price-ves"></span></div><a href="https://wa.me/521234567890?text=Hola,%20quiero%20pedir%20Mortadela%20Punta%20de%20Monte%201%20Kg" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- DON RAMÓN 900G ACTUALIZADO $2.80 -->
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="flip-front">
-            <div class="flip-media"><span class="flip-badge">Marca</span>
-              <img src="https://i.postimg.cc/4YkdSyGX/mortadela-don-ramon-900g.jpg" alt="Mortadela Don Ramón 900g" onerror="this.remove()">
-            </div>
-            <div class="flip-front-info"><h3>Mortadela Don Ramón 900g</h3><div class="flip-price" data-price-usd="2.80">$2.80 <small>/ 900g</small><span class="price-ves"></span></div></div>
-            <div class="flip-front-hint">↻</div>
-          </div>
-          <div class="flip-back">
-            <div><div class="back-cat">Embutidos y Quesos</div><h3>Mortadela Don Ramón 900g</h3><p>Mortadela de pollo especial Don Ramón. Peso: 900g. Embutidos CND. CPE: CPE051027291.</p></div>
-            <div><div class="back-price" data-price-usd="2.80">$2.80 <small>/ 900g</small><span class="price-ves"></span></div><a href="https://wa.me/521234567890?text=Hola,%20quiero%20pedir%20Mortadela%20Don%20Ramón%20900g" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- LA PATRONA 900G ACTUALIZADO $2.50 -->
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="flip-front">
-            <div class="flip-media"><span class="flip-badge">Marca</span>
-              <img src="https://i.postimg.cc/mPfD5k4h/mortadela-la-patrona-900g.jpg" alt="Mortadela La Patrona 900g" onerror="this.remove()">
-            </div>
-            <div class="flip-front-info"><h3>Mortadela La Patrona 900g</h3><div class="flip-price" data-price-usd="2.50">$2.50 <small>/ 900g</small><span class="price-ves"></span></div></div>
-            <div class="flip-front-hint">↻</div>
-          </div>
-          <div class="flip-back">
-            <div><div class="back-cat">Embutidos y Quesos</div><h3>Mortadela La Patrona 900g</h3><p>Mortadela de pollo especial La Patrona. Peso: 900g. Fontanol. Sin soya, sin lactosa, sin gluten.</p></div>
-            <div><div class="back-price" data-price-usd="2.50">$2.50 <small>/ 900g</small><span class="price-ves"></span></div><a href="https://wa.me/521234567890?text=Hola,%20quiero%20pedir%20Mortadela%20La%20Patrona%20900g" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="flip-front">
-            <div class="flip-media"><span class="flip-badge">Marca</span>
-              <img src="https://i.postimg.cc/ykzxfWsZ/calabresa.webp" alt="Calabresa" onerror="this.remove()">
-            </div>
-            <div class="flip-front-info"><h3>Calabresa</h3><div class="flip-price" data-price-usd="6.50">$6.50 <small>/ kg</small><span class="price-ves"></span></div></div>
-            <div class="flip-front-hint">↻</div>
-          </div>
-          <div class="flip-back">
-            <div><div class="back-cat">Embutidos y Quesos</div><h3>Calabresa</h3><p>Calabresa con el auténtico sabor ahumado. Perfecta para parrilla y guisos.</p></div>
-            <div><div class="back-price" data-price-usd="6.50">$6.50 <small>/ kg</small><span class="price-ves"></span></div><a href="https://wa.me/521234567890?text=Hola,%20quiero%20pedir%20Calabresa" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div>
-          </div>
-        </div>
-      </div>
-
+      <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-media"><span class="flip-badge">Del día</span><img src="https://i.postimg.cc/Yhw0XjMr/queso-duro.jpg" alt="" onerror="this.remove()"></div><div class="flip-front-info"><h3>Queso Duro</h3><div class="flip-price" data-price-usd="8.00">$8.00 <small>/ kg</small><span class="price-ves"></span></div></div><div class="flip-front-hint">↻</div></div><div class="flip-back"><div><div class="back-cat">Embutidos y Quesos</div><h3>Queso Duro</h3><p>Queso duro artesanal, ideal para rallar, para arepas o para acompañar tus comidas.</p></div><div><div class="back-price" data-price-usd="8.00">$8.00 <small>/ kg</small><span class="price-ves"></span></div><a href="https://wa.me/584127575553?text=Hola,%20quiero%20pedir%20Queso%20Duro" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div></div></div></div>
+      <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-media"><span class="flip-badge">Del día</span><img src="https://i.postimg.cc/F7QzP1NY/jamon-don-ramon.jpg" alt="" onerror="this.remove()"></div><div class="flip-front-info"><h3>Jamón Don Ramón</h3><div class="flip-price" data-price-usd="8.00">$8.00 <small>/ kg</small><span class="price-ves"></span></div></div><div class="flip-front-hint">↻</div></div><div class="flip-back"><div><div class="back-cat">Embutidos y Quesos</div><h3>Jamón Don Ramón</h3><p>Jamón cocido de calidad Don Ramón, en lonjas finas. Perfecto para sándwiches y desayunos.</p></div><div><div class="back-price" data-price-usd="8.00">$8.00 <small>/ kg</small><span class="price-ves"></span></div><a href="https://wa.me/584127575553?text=Hola,%20quiero%20pedir%20Jamón%20Don%20Ramón" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div></div></div></div>
+      <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-media"><span class="flip-badge">Marca</span><img src="https://i.postimg.cc/3dDN1ps8/mortadela-alibal-de-1kg.jpg" alt="" onerror="this.remove()"></div><div class="flip-front-info"><h3>Mortadela Alíbal 1 Kg</h3><div class="flip-price" data-price-usd="3.50">$3.50 <small>/ kg</small><span class="price-ves"></span></div></div><div class="flip-front-hint">↻</div></div><div class="flip-back"><div><div class="back-cat">Embutidos y Quesos</div><h3>Mortadela Alíbal 1 Kg</h3><p>Mortadela de pollo especial Alíbal. Peso: 1 Kg. Purolomo. CPE: CPE1221510717.</p></div><div><div class="back-price" data-price-usd="3.50">$3.50 <small>/ kg</small><span class="price-ves"></span></div><a href="https://wa.me/584127575553?text=Hola,%20quiero%20pedir%20Mortadela%20Alíbal%201%20Kg" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div></div></div></div>
+      <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-media"><span class="flip-badge">Marca</span><img src="https://i.postimg.cc/PCsxRJHj/mortadela-alibal-500g.jpg" alt="" onerror="this.remove()"></div><div class="flip-front-info"><h3>Mortadela Alíbal 500g</h3><div class="flip-price" data-price-usd="2.00">$2.00 <small>/ 500g</small><span class="price-ves"></span></div></div><div class="flip-front-hint">↻</div></div><div class="flip-back"><div><div class="back-cat">Embutidos y Quesos</div><h3>Mortadela Alíbal 500g</h3><p>Mortadela de pollo especial Alíbal. Peso: 500g. Purolomo. CPE: CPE0522517548.</p></div><div><div class="back-price" data-price-usd="2.00">$2.00 <small>/ 500g</small><span class="price-ves"></span></div><a href="https://wa.me/584127575553?text=Hola,%20quiero%20pedir%20Mortadela%20Alíbal%20500g" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div></div></div></div>
+      <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-media"><span class="flip-badge">Marca</span><img src="https://i.postimg.cc/WdL3HzVT/mortadela-punta-de-monte-500g.jpg" alt="" onerror="this.remove()"></div><div class="flip-front-info"><h3>Mortadela Punta de Monte 500g</h3><div class="flip-price" data-price-usd="2.60">$2.60 <small>/ 500g</small><span class="price-ves"></span></div></div><div class="flip-front-hint">↻</div></div><div class="flip-back"><div><div class="back-cat">Embutidos y Quesos</div><h3>Mortadela Punta de Monte 500g</h3><p>Mortadela de pollo especial Punta de Monte. Peso: 500g. Purolomo. CPE: CPE1221510718.</p></div><div><div class="back-price" data-price-usd="2.60">$2.60 <small>/ 500g</small><span class="price-ves"></span></div><a href="https://wa.me/584127575553?text=Hola,%20quiero%20pedir%20Mortadela%20Punta%20de%20Monte%20500g" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div></div></div></div>
+      <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-media"><span class="flip-badge">Marca</span><img src="https://i.postimg.cc/0zRQBjv8/mortadela-punta-de-monte-1-kg.jpg" alt="" onerror="this.remove()"></div><div class="flip-front-info"><h3>Mortadela Punta de Monte 1 Kg</h3><div class="flip-price" data-price-usd="4.60">$4.60 <small>/ kg</small><span class="price-ves"></span></div></div><div class="flip-front-hint">↻</div></div><div class="flip-back"><div><div class="back-cat">Embutidos y Quesos</div><h3>Mortadela Punta de Monte 1 Kg</h3><p>Mortadela de pollo especial Punta de Monte. Peso: 1 Kg. Purolomo. CPE: CPE1221510720.</p></div><div><div class="back-price" data-price-usd="4.60">$4.60 <small>/ kg</small><span class="price-ves"></span></div><a href="https://wa.me/584127575553?text=Hola,%20quiero%20pedir%20Mortadela%20Punta%20de%20Monte%201%20Kg" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div></div></div></div>
+      <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-media"><span class="flip-badge">Marca</span><img src="https://i.postimg.cc/4YkdSyGX/mortadela-don-ramon-900g.jpg" alt="" onerror="this.remove()"></div><div class="flip-front-info"><h3>Mortadela Don Ramón 900g</h3><div class="flip-price" data-price-usd="2.80">$2.80 <small>/ 900g</small><span class="price-ves"></span></div></div><div class="flip-front-hint">↻</div></div><div class="flip-back"><div><div class="back-cat">Embutidos y Quesos</div><h3>Mortadela Don Ramón 900g</h3><p>Mortadela de pollo especial Don Ramón. Peso: 900g. Embutidos CND. CPE: CPE051027291.</p></div><div><div class="back-price" data-price-usd="2.80">$2.80 <small>/ 900g</small><span class="price-ves"></span></div><a href="https://wa.me/584127575553?text=Hola,%20quiero%20pedir%20Mortadela%20Don%20Ramón%20900g" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div></div></div></div>
+      <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-media"><span class="flip-badge">Marca</span><img src="https://i.postimg.cc/mPfD5k4h/mortadela-la-patrona-900g.jpg" alt="" onerror="this.remove()"></div><div class="flip-front-info"><h3>Mortadela La Patrona 900g</h3><div class="flip-price" data-price-usd="2.50">$2.50 <small>/ 900g</small><span class="price-ves"></span></div></div><div class="flip-front-hint">↻</div></div><div class="flip-back"><div><div class="back-cat">Embutidos y Quesos</div><h3>Mortadela La Patrona 900g</h3><p>Mortadela de pollo especial La Patrona. Peso: 900g. Fontanol. Sin soya, sin lactosa, sin gluten.</p></div><div><div class="back-price" data-price-usd="2.50">$2.50 <small>/ 900g</small><span class="price-ves"></span></div><a href="https://wa.me/584127575553?text=Hola,%20quiero%20pedir%20Mortadela%20La%20Patrona%20900g" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div></div></div></div>
+      <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-media"><span class="flip-badge">Marca</span><img src="https://i.postimg.cc/ykzxfWsZ/calabresa.webp" alt="" onerror="this.remove()"></div><div class="flip-front-info"><h3>Calabresa</h3><div class="flip-price" data-price-usd="6.50">$6.50 <small>/ kg</small><span class="price-ves"></span></div></div><div class="flip-front-hint">↻</div></div><div class="flip-back"><div><div class="back-cat">Embutidos y Quesos</div><h3>Calabresa</h3><p>Calabresa con el auténtico sabor ahumado. Perfecta para parrilla y guisos.</p></div><div><div class="back-price" data-price-usd="6.50">$6.50 <small>/ kg</small><span class="price-ves"></span></div><a href="https://wa.me/584127575553?text=Hola,%20quiero%20pedir%20Calabresa" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div></div></div></div>
     </div>
 
     <h3 class="cat-title" data-cat="abastos">🛒 Abastos</h3>
     <div class="grid" data-group="abastos">
-
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="flip-front">
-            <div class="flip-media">
-              <img src="https://i.postimg.cc/67Lxp6FP/aceite-batel.jpg" alt="Aceite Batel" onerror="this.remove()">
-            </div>
-            <div class="flip-front-info"><h3>Aceite Batel</h3><div class="flip-price" data-price-usd="2.50">$2.50 <small>/ litro</small><span class="price-ves"></span></div></div>
-            <div class="flip-front-hint">↻</div>
-          </div>
-          <div class="flip-back">
-            <div><div class="back-cat">Abastos</div><h3>Aceite Batel</h3><p>Aceite vegetal Batel de calidad. Ideal para cocinar y freír.</p></div>
-            <div><div class="back-price" data-price-usd="2.50">$2.50 <small>/ litro</small><span class="price-ves"></span></div><a href="https://wa.me/521234567890?text=Hola,%20quiero%20pedir%20Aceite%20Batel" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="flip-front">
-            <div class="flip-media">
-              <img src="https://i.postimg.cc/d7mcVQgn/matequilla-mavesa.webp" alt="Mantequilla Mavesa" onerror="this.remove()">
-            </div>
-            <div class="flip-front-info"><h3>Mantequilla Mavesa</h3><div class="flip-price" data-price-usd="2.00">$2.00 <small>/ unidad</small><span class="price-ves"></span></div></div>
-            <div class="flip-front-hint">↻</div>
-          </div>
-          <div class="flip-back">
-            <div><div class="back-cat">Abastos</div><h3>Mantequilla Mavesa</h3><p>Mantequilla Mavesa cremosa de calidad. Perfecta para untar o repostería.</p></div>
-            <div><div class="back-price" data-price-usd="2.00">$2.00 <small>/ unidad</small><span class="price-ves"></span></div><a href="https://wa.me/521234567890?text=Hola,%20quiero%20pedir%20Mantequilla%20Mavesa" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="flip-front">
-            <div class="flip-media">
-              <img src="https://i.postimg.cc/kVFPgMkr/harina-pan.jpg" alt="Harina Pan" onerror="this.remove()">
-            </div>
-            <div class="flip-front-info"><h3>Harina Pan</h3><div class="flip-price" data-price-usd="1.50">$1.50 <small>/ unidad</small><span class="price-ves"></span></div></div>
-            <div class="flip-front-hint">↻</div>
-          </div>
-          <div class="flip-back">
-            <div><div class="back-cat">Abastos</div><h3>Harina Pan</h3><p>La clásica harina de maíz para arepas. No puede faltar en tu despensa.</p></div>
-            <div><div class="back-price" data-price-usd="1.50">$1.50 <small>/ unidad</small><span class="price-ves"></span></div><a href="https://wa.me/521234567890?text=Hola,%20quiero%20pedir%20Harina%20Pan" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="flip-front">
-            <div class="flip-media">
-              <img src="https://i.postimg.cc/v1LwZ8CC/harina-la-lucha.jpg" alt="Harina La Lucha" onerror="this.remove()">
-            </div>
-            <div class="flip-front-info"><h3>Harina La Lucha</h3><div class="flip-price" data-price-usd="1.60">$1.60 <small>/ unidad</small><span class="price-ves"></span></div></div>
-            <div class="flip-front-hint">↻</div>
-          </div>
-          <div class="flip-back">
-            <div><div class="back-cat">Abastos</div><h3>Harina La Lucha</h3><p>Harina de maíz de calidad para tus arepas y platos tradicionales.</p></div>
-            <div><div class="back-price" data-price-usd="1.60">$1.60 <small>/ unidad</small><span class="price-ves"></span></div><a href="https://wa.me/521234567890?text=Hola,%20quiero%20pedir%20Harina%20La%20Lucha" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="flip-card">
-        <div class="flip-inner">
-          <div class="flip-front">
-            <div class="flip-media">
-              <img src="https://i.postimg.cc/VSBPks2p/arroz-la-lucha-1kg.jpg" alt="Arroz La Lucha 1kg" onerror="this.remove()">
-            </div>
-            <div class="flip-front-info"><h3>Arroz La Lucha 1kg</h3><div class="flip-price" data-price-usd="1.50">$1.50 <small>/ kg</small><span class="price-ves"></span></div></div>
-            <div class="flip-front-hint">↻</div>
-          </div>
-          <div class="flip-back">
-            <div><div class="back-cat">Abastos</div><h3>Arroz La Lucha 1kg</h3><p>Arroz de grano largo La Lucha, perfecto para cualquier preparación.</p></div>
-            <div><div class="back-price" data-price-usd="1.50">$1.50 <small>/ kg</small><span class="price-ves"></span></div><a href="https://wa.me/521234567890?text=Hola,%20quiero%20pedir%20Arroz%20La%20Lucha%201kg" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div>
-          </div>
-        </div>
-      </div>
-
+      <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-media"><img src="https://i.postimg.cc/67Lxp6FP/aceite-batel.jpg" alt="" onerror="this.remove()"></div><div class="flip-front-info"><h3>Aceite Batel</h3><div class="flip-price" data-price-usd="2.50">$2.50 <small>/ litro</small><span class="price-ves"></span></div></div><div class="flip-front-hint">↻</div></div><div class="flip-back"><div><div class="back-cat">Abastos</div><h3>Aceite Batel</h3><p>Aceite vegetal Batel de calidad. Ideal para cocinar y freír.</p></div><div><div class="back-price" data-price-usd="2.50">$2.50 <small>/ litro</small><span class="price-ves"></span></div><a href="https://wa.me/584127575553?text=Hola,%20quiero%20pedir%20Aceite%20Batel" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div></div></div></div>
+      <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-media"><img src="https://i.postimg.cc/d7mcVQgn/matequilla-mavesa.webp" alt="" onerror="this.remove()"></div><div class="flip-front-info"><h3>Mantequilla Mavesa</h3><div class="flip-price" data-price-usd="2.00">$2.00 <small>/ unidad</small><span class="price-ves"></span></div></div><div class="flip-front-hint">↻</div></div><div class="flip-back"><div><div class="back-cat">Abastos</div><h3>Mantequilla Mavesa</h3><p>Mantequilla Mavesa cremosa de calidad. Perfecta para untar o repostería.</p></div><div><div class="back-price" data-price-usd="2.00">$2.00 <small>/ unidad</small><span class="price-ves"></span></div><a href="https://wa.me/584127575553?text=Hola,%20quiero%20pedir%20Mantequilla%20Mavesa" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div></div></div></div>
+      <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-media"><img src="https://i.postimg.cc/kVFPgMkr/harina-pan.jpg" alt="" onerror="this.remove()"></div><div class="flip-front-info"><h3>Harina Pan</h3><div class="flip-price" data-price-usd="1.50">$1.50 <small>/ unidad</small><span class="price-ves"></span></div></div><div class="flip-front-hint">↻</div></div><div class="flip-back"><div><div class="back-cat">Abastos</div><h3>Harina Pan</h3><p>La clásica harina de maíz para arepas. No puede faltar en tu despensa.</p></div><div><div class="back-price" data-price-usd="1.50">$1.50 <small>/ unidad</small><span class="price-ves"></span></div><a href="https://wa.me/584127575553?text=Hola,%20quiero%20pedir%20Harina%20Pan" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div></div></div></div>
+      <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-media"><img src="https://i.postimg.cc/v1LwZ8CC/harina-la-lucha.jpg" alt="" onerror="this.remove()"></div><div class="flip-front-info"><h3>Harina La Lucha</h3><div class="flip-price" data-price-usd="1.60">$1.60 <small>/ unidad</small><span class="price-ves"></span></div></div><div class="flip-front-hint">↻</div></div><div class="flip-back"><div><div class="back-cat">Abastos</div><h3>Harina La Lucha</h3><p>Harina de maíz de calidad para tus arepas y platos tradicionales.</p></div><div><div class="back-price" data-price-usd="1.60">$1.60 <small>/ unidad</small><span class="price-ves"></span></div><a href="https://wa.me/584127575553?text=Hola,%20quiero%20pedir%20Harina%20La%20Lucha" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div></div></div></div>
+      <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-media"><img src="https://i.postimg.cc/VSBPks2p/arroz-la-lucha-1kg.jpg" alt="" onerror="this.remove()"></div><div class="flip-front-info"><h3>Arroz La Lucha 1kg</h3><div class="flip-price" data-price-usd="1.50">$1.50 <small>/ kg</small><span class="price-ves"></span></div></div><div class="flip-front-hint">↻</div></div><div class="flip-back"><div><div class="back-cat">Abastos</div><h3>Arroz La Lucha 1kg</h3><p>Arroz de grano largo La Lucha, perfecto para cualquier preparación.</p></div><div><div class="back-price" data-price-usd="1.50">$1.50 <small>/ kg</small><span class="price-ves"></span></div><a href="https://wa.me/584127575553?text=Hola,%20quiero%20pedir%20Arroz%20La%20Lucha%201kg" class="back-btn" target="_blank">💬 Pedir por WhatsApp</a></div></div></div></div>
     </div>
+  </div>
+</section>
 
+<section class="combos-section" id="combos">
+  <div class="combos-inner">
+    <div class="section-head center">
+      <div class="eyebrow-line">Ahorra comprando en combo</div>
+      <h2>Combos que <em>rinden más</em></h2>
+      <p class="section-lead">Los favoritos de nuestros clientes, en un solo paquete y con precio especial. Pide en un clic.</p>
+    </div>
+    <div class="combos-grid">
+      <div class="combo-card destacado">
+        <div class="combo-ribbon">Top ventas</div>
+        <div class="combo-media"><img src="https://images.unsplash.com/photo-1603048297172-c92544798d5a?w=800&q=80" alt="Combo"><span class="combo-ahorro">Ahorras $5</span></div>
+        <div class="combo-body"><h3>Combo Parrillero</h3><p class="combo-desc">Todo lo que necesitas para una parrilla completa con amigos o familia.</p><ul class="combo-incluye"><li>2 kg Carne de Res Premium</li><li>1 kg Pollo Entero</li><li>1 kg Chuleta de Cochino</li></ul><div class="combo-precios"><span class="combo-precio-ant">$34.00</span><div><div class="combo-precio-act">$29.00</div><span class="combo-precio-bs price-ves-combo" data-price-usd="29.00"></span></div></div><a href="https://wa.me/584127575553?text=Hola,%20quiero%20pedir%20el%20Combo%20Parrillero%20(%2429)" class="combo-btn" target="_blank">Pedir combo</a></div>
+      </div>
+      <div class="combo-card">
+        <div class="combo-media"><img src="https://i.postimg.cc/K4T4rtSv/chuleta-de-cochino.jpg" alt="Combo"><span class="combo-ahorro">Ahorras $3</span></div>
+        <div class="combo-body"><h3>Combo Familiar Semanal</h3><p class="combo-desc">La base de la semana: carne, pollo, embutidos y lo básico de la despensa.</p><ul class="combo-incluye"><li>1 kg Carne de Res</li><li>1 kg Pollo Entero</li><li>1 Mortadela Alíbal 1 kg</li><li>1 Harina Pan</li></ul><div class="combo-precios"><span class="combo-precio-ant">$20.00</span><div><div class="combo-precio-act">$17.00</div><span class="combo-precio-bs price-ves-combo" data-price-usd="17.00"></span></div></div><a href="https://wa.me/584127575553?text=Hola,%20quiero%20pedir%20el%20Combo%20Familiar%20(%2417)" class="combo-btn" target="_blank">Pedir combo</a></div>
+      </div>
+      <div class="combo-card">
+        <div class="combo-media"><img src="https://i.postimg.cc/d7mcVQgn/matequilla-mavesa.webp" alt="Combo"><span class="combo-ahorro">Ahorras $1.30</span></div>
+        <div class="combo-body"><h3>Combo Económico</h3><p class="combo-desc">Lo esencial para resolver la comida del día sin gastar de más.</p><ul class="combo-incluye"><li>1 kg Pollo Picado</li><li>1 Mortadela Don Ramón 900g</li><li>1 Harina Pan</li><li>1 Arroz La Lucha 1 kg</li></ul><div class="combo-precios"><span class="combo-precio-ant">$8.80</span><div><div class="combo-precio-act">$7.50</div><span class="combo-precio-bs price-ves-combo" data-price-usd="7.50"></span></div></div><a href="https://wa.me/584127575553?text=Hola,%20quiero%20pedir%20el%20Combo%20Económico%20(%247.50)" class="combo-btn" target="_blank">Pedir combo</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="deldia-section">
+  <div class="deldia-inner">
+    <div class="deldia-media"><img src="https://images.unsplash.com/photo-1603048297172-c92544798d5a?w=900&q=80" alt="Corte del día"><div class="deldia-descuento"><span>15%</span><span>OFF</span></div></div>
+    <div class="deldia-info">
+      <div class="eyebrow-line">Oferta que termina hoy</div>
+      <h2>El <em>corte del día</em></h2>
+      <div class="deldia-producto">Carne de Res Premium</div>
+      <p class="deldia-desc">Corte selecto del día con 15% de descuento. Solo hasta la medianoche o hasta agotar existencia.</p>
+      <div class="deldia-precios"><span class="deldia-ant">$12.00</span><span class="deldia-act">$10.20 <small style="font-size:0.9rem;color:var(--gris);font-family:var(--sans);">/ kg</small></span></div>
+      <div class="deldia-contador"><p>Termina en</p><div class="contador" id="contador"><div class="contador-item"><strong id="c-horas">00</strong><span>Horas</span></div><div class="contador-item"><strong id="c-min">00</strong><span>Min</span></div><div class="contador-item"><strong id="c-seg">00</strong><span>Seg</span></div></div></div>
+      <a href="https://wa.me/584127575553?text=Hola,%20quiero%20pedir%20el%20Corte%20del%20D%C3%ADa" class="deldia-btn" target="_blank">💬 Pedir ahora</a>
+    </div>
+  </div>
+</section>
+
+<section class="calc-section" id="calculadora">
+  <div class="calc-inner">
+    <div class="section-head center">
+      <div class="eyebrow-line" style="color:var(--dorado-brillo);">No sabes cuánto comprar</div>
+      <h2 style="color:var(--texto-claro);">Calcula tu <em style="color:var(--dorado-brillo);">carne</em></h2>
+      <p class="section-lead" style="color:#b8aba0;">Dinos cuántas personas vienen y te decimos exactamente qué pedir. Sin desperdicios, sin quedarte corto.</p>
+    </div>
+    <div class="calc-box">
+      <div class="calc-controles">
+        <div><span class="calc-label">¿Cuántas personas?</span><div class="calc-num"><button type="button" id="calc-menos">−</button><input type="number" id="calc-personas" value="4" min="1" max="50"><button type="button" id="calc-mas">+</button></div></div>
+        <div><span class="calc-label">¿Qué tipo de comida?</span><div class="calc-tipos"><button type="button" class="calc-tipo active" data-tipo="parrilla">Parrilla</button><button type="button" class="calc-tipo" data-tipo="guiso">Guiso</button><button type="button" class="calc-tipo" data-tipo="mixto">Mixto</button></div></div>
+      </div>
+      <div class="calc-resultado">
+        <h4>Tu pedido recomendado</h4>
+        <ul class="calc-items" id="calc-items"><li><span>Carne de Res</span><span id="r-carne">1 kg</span></li><li><span>Pollo Entero</span><span id="r-pollo">1 kg</span></li><li><span>Chuleta de Cochino</span><span id="r-chuleta">0.5 kg</span></li></ul>
+        <div class="calc-total" id="calc-total">$22.00</div>
+        <a href="#" id="calc-btn" class="calc-btn" target="_blank">💬 Pedir esta cantidad</a>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -891,36 +506,18 @@ video{display:block;}
       </div>
     </div>
     <div class="video-frame">
-      <video autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1544025162-d76694265947?w=900&q=80">
-        <source src="https://videos.pexels.com/video-files/3298626/3298626-hd_1920_1080_30fps.mp4" type="video/mp4">
-      </video>
+      <video autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1544025162-d76694265947?w=900&q=80"><source src="https://videos.pexels.com/video-files/3298626/3298626-hd_1920_1080_30fps.mp4" type="video/mp4"></video>
       <button class="video-play" aria-label="Reproducir video"></button>
     </div>
   </div>
 </section>
 
 <section class="section testimonios">
-  <div class="section-head center">
-    <div class="eyebrow-line">Lo que dicen nuestros clientes</div>
-    <h2>La confianza se <em>gana</em></h2>
-    <p class="section-lead">Miles de familias nos eligen cada semana.</p>
-  </div>
+  <div class="section-head center"><div class="eyebrow-line">Lo que dicen nuestros clientes</div><h2>La confianza se <em>gana</em></h2><p class="section-lead">Miles de familias nos eligen cada semana.</p></div>
   <div class="test-grid">
-    <div class="test">
-      <div class="test-stars">★★★★★</div>
-      <p>La calidad de la carne es otro nivel. Se nota que es fresca del día. Mi familia ya no compra en otro lado.</p>
-      <div class="test-author"><div class="test-avatar">M</div><div class="test-author-info"><strong>María González</strong><span>Cliente desde 2018</span></div></div>
-    </div>
-    <div class="test">
-      <div class="test-stars">★★★★★</div>
-      <p>El pollo siempre fresco, los embutidos de marcas buenas y el servicio por WhatsApp es súper rápido.</p>
-      <div class="test-author"><div class="test-avatar">J</div><div class="test-author-info"><strong>José Ramírez</strong><span>Cliente desde 2020</span></div></div>
-    </div>
-    <div class="test">
-      <div class="test-stars">★★★★★</div>
-      <p>Pedí por primera vez hace dos años y ya no cambio. Entrega puntual, productos frescos y precios justos.</p>
-      <div class="test-author"><div class="test-avatar">C</div><div class="test-author-info"><strong>Carmen Díaz</strong><span>Cliente desde 2021</span></div></div>
-    </div>
+    <div class="test"><div class="test-stars">★★★★★</div><p>La calidad de la carne es otro nivel. Se nota que es fresca del día. Mi familia ya no compra en otro lado.</p><div class="test-author"><div class="test-avatar">M</div><div class="test-author-info"><strong>María González</strong><span>Cliente desde 2018</span></div></div></div>
+    <div class="test"><div class="test-stars">★★★★★</div><p>El pollo siempre fresco, los embutidos de marcas buenas y el servicio por WhatsApp es súper rápido.</p><div class="test-author"><div class="test-avatar">J</div><div class="test-author-info"><strong>José Ramírez</strong><span>Cliente desde 2020</span></div></div></div>
+    <div class="test"><div class="test-stars">★★★★★</div><p>Pedí por primera vez hace dos años y ya no cambio. Entrega puntual, productos frescos y precios justos.</p><div class="test-author"><div class="test-avatar">C</div><div class="test-author-info"><strong>Carmen Díaz</strong><span>Cliente desde 2021</span></div></div></div>
   </div>
 </section>
 
@@ -937,26 +534,17 @@ video{display:block;}
 </section>
 
 <section class="section" id="nosotros">
-  <div class="section-head center">
-    <div class="eyebrow-line">Quiénes somos</div>
-    <h2>Más de <em>20 años</em> sirviendo con orgullo</h2>
-  </div>
-  <div class="nosotros-card">
-    <p>"En <strong>Carnicería El Buen Corte</strong> ofrecemos la mejor carne de la región, pollo fresco en todos sus cortes, embutidos de marcas reconocidas y los abastos que tu familia necesita. Trabajamos con proveedores locales de confianza y garantizamos frescura, higiene y sabor en cada producto."</p>
-  </div>
+  <div class="section-head center"><div class="eyebrow-line">Quiénes somos</div><h2>Más de <em>20 años</em> sirviendo con orgullo</h2></div>
+  <div class="nosotros-card"><p>"En <strong>Carnicería El Buen Corte</strong> ofrecemos la mejor carne de la región, pollo fresco en todos sus cortes, embutidos de marcas reconocidas y los abastos que tu familia necesita. Trabajamos con proveedores locales de confianza y garantizamos frescura, higiene y sabor en cada producto."</p></div>
 </section>
 
 <section class="contacto-section" id="contacto">
   <div class="contacto-inner">
-    <div class="section-head center">
-      <div class="eyebrow-line">Estamos para servirte</div>
-      <h2>Contáctanos</h2>
-      <p class="section-lead">Escríbenos por cualquier canal. Respondemos rápido y con gusto.</p>
-    </div>
+    <div class="section-head center"><div class="eyebrow-line">Estamos para servirte</div><h2>Contáctanos</h2><p class="section-lead">Escríbenos por cualquier canal. Respondemos rápido y con gusto.</p></div>
     <div class="contacto-grid">
-      <div class="contacto-card"><div class="contacto-ico">📞</div><h4>Teléfono</h4><a href="tel:+521234567890">+52 123 456 7890</a></div>
+      <div class="contacto-card"><div class="contacto-ico">📞</div><h4>Teléfono</h4><a href="tel:+584127575553">+58 412 757 5553</a></div>
       <div class="contacto-card"><div class="contacto-ico">📍</div><h4>Dirección</h4><p>Calle Principal #123<br>Col. Centro</p></div>
-      <div class="contacto-card"><div class="contacto-ico">💬</div><h4>WhatsApp</h4><a href="https://wa.me/521234567890" target="_blank">Escríbenos →</a></div>
+      <div class="contacto-card"><div class="contacto-ico">💬</div><h4>WhatsApp</h4><a href="https://wa.me/584127575553" target="_blank">Escríbenos →</a></div>
       <div class="contacto-card"><div class="contacto-ico">✉️</div><h4>Correo</h4><a href="mailto:contacto@elbuencorte.com">contacto@elbuencorte.com</a></div>
     </div>
   </div>
@@ -966,7 +554,7 @@ video{display:block;}
   <div class="cta-inner">
     <h2>El mejor corte, <em>a un WhatsApp de distancia</em></h2>
     <p>Haz tu pedido ahora y recibe la frescura de nuestra vitrina directo en tu cocina. Sin filas, sin esperas.</p>
-    <a href="https://wa.me/521234567890?text=Hola,%20quiero%20hacer%20un%20pedido" class="btn-primary" target="_blank">💬 Pedir por WhatsApp</a>
+    <a href="https://wa.me/584127575553?text=Hola,%20quiero%20hacer%20un%20pedido" class="btn-primary" target="_blank">💬 Pedir por WhatsApp</a>
   </div>
 </section>
 
@@ -984,204 +572,63 @@ video{display:block;}
 
 <footer class="footer">
   <div class="footer-inner">
-    <div class="footer-brand">
-      <a href="#inicio" class="brand">
-        <div class="brand-mark">🥩</div>
-        <div class="brand-name"><small>Carnicería Artesanal</small>El Buen Corte</div>
-      </a>
-      <p>Más de 20 años ofreciendo la mejor carne de la región. Calidad, frescura y tradición en cada corte.</p>
-    </div>
-    <div><h5>Secciones</h5><ul>
-      <li><a href="#productos">Productos</a></li>
-      <li><a href="#categorias">Categorías</a></li>
-      <li><a href="#proceso">Cómo pedir</a></li>
-      <li><a href="#nosotros">Nosotros</a></li>
-      <li><a href="#contacto">Contacto</a></li>
-    </ul></div>
-    <div><h5>Contacto</h5><ul>
-      <li><a href="tel:+521234567890">+52 123 456 7890</a></li>
-      <li><a href="mailto:contacto@elbuencorte.com">contacto@elbuencorte.com</a></li>
-      <li><a href="https://wa.me/521234567890" target="_blank">WhatsApp directo</a></li>
-      <li><a href="#">Calle Principal #123</a></li>
-    </ul></div>
+    <div class="footer-brand"><a href="#inicio" class="brand"><div class="brand-mark">🥩</div><div class="brand-name"><small>Carnicería Artesanal</small>El Buen Corte</div></a><p>Más de 20 años ofreciendo la mejor carne de la región. Calidad, frescura y tradición en cada corte.</p></div>
+    <div><h5>Secciones</h5><ul><li><a href="#productos">Productos</a></li><li><a href="#combos">Combos</a></li><li><a href="#categorias">Categorías</a></li><li><a href="#proceso">Cómo pedir</a></li><li><a href="#contacto">Contacto</a></li></ul></div>
+    <div><h5>Contacto</h5><ul><li><a href="tel:+584127575553">+58 412 757 5553</a></li><li><a href="mailto:contacto@elbuencorte.com">contacto@elbuencorte.com</a></li><li><a href="https://wa.me/584127575553" target="_blank">WhatsApp directo</a></li><li><a href="#">Calle Principal #123</a></li></ul></div>
   </div>
-  <div class="footer-bottom">
-    <div>© 2025 Carnicería <span>El Buen Corte</span>. Todos los derechos reservados.</div>
-    <div>Hecho con cariño en cada corte.</div>
-  </div>
+  <div class="footer-bottom"><div>© 2025 Carnicería <span>El Buen Corte</span>. Todos los derechos reservados.</div><div>Hecho con cariño en cada corte.</div></div>
 </footer>
 
-<a href="https://wa.me/521234567890?text=Hola,%20quiero%20hacer%20un%20pedido" class="wpp" target="_blank" title="Pedir por WhatsApp">💬</a>
+<div class="cart-overlay" id="cartOverlay"></div>
+<div class="cart-bar" id="cartBar">
+  <div class="cart-bar-left" onclick="abrirCarrito()"><div class="cart-icon">🛒<span class="cart-count" id="cartCount">0</span></div><div class="cart-info"><strong id="cartInfo">Tu pedido</strong><span id="cartInfoSub">Toca para ver</span></div></div>
+  <div style="display:flex;align-items:center;gap:16px;"><div class="cart-bar-total"><span id="cartTotal">$0.00</span><small id="cartTotalBs">Bs. 0,00</small></div><button class="cart-bar-btn" onclick="abrirCarrito()">Ver pedido</button></div>
+</div>
+<div class="cart-panel" id="cartPanel">
+  <div class="cart-panel-header"><h3>🛒 Tu pedido</h3><button class="cart-close" onclick="cerrarCarrito()">✕</button></div>
+  <div class="cart-panel-body" id="cartBody"><div class="cart-vacio"><div class="emoji">🛒</div><p>Aún no has agregado nada.<br>Explora nuestros productos y agrega tus favoritos.</p></div></div>
+  <div class="cart-panel-footer">
+    <div class="cart-totales">
+      <div class="cart-total-row"><span>Subtotal (USD)</span><span id="cartSubtotalUSD">$0.00</span></div>
+      <div class="cart-total-row"><span>Subtotal (Bs)</span><span id="cartSubtotalBs">Bs. 0,00</span></div>
+      <div class="cart-total-row total"><span>Total</span><span id="cartFinal">$0.00</span></div>
+    </div>
+    <button class="cart-checkout" onclick="pedirPorWhatsApp()">💬 Pedir por WhatsApp</button>
+    <button class="btn-pago-movil" onclick="abrirPagoMovil()">💳 Pagar con Pago Móvil</button>
+  </div>
+</div>
+
+<div class="pm-overlay" id="pmOverlay">
+  <div class="pm-modal">
+    <h3>💳 Pagar con Pago Móvil</h3>
+    <p class="pm-sub">Transfiere el monto exacto y envía tu comprobante</p>
+    <div class="pm-monto"><div class="label">Monto a pagar</div><div class="valor" id="pmMontoBs">Bs. 0,00</div><div class="valor-usd" id="pmMontoUsd">($0.00 USD)</div></div>
+    <div class="pm-datos" id="pmDatos">
+      <div class="fila"><span class="etiqueta">Banco</span><span class="dato" onclick="pmCopiar(this)">BNC (0191)</span></div>
+      <div class="fila"><span class="etiqueta">Teléfono</span><span class="dato" onclick="pmCopiar(this)">0412-7575553</span></div>
+      <div class="fila"><span class="etiqueta">Cédula</span><span class="dato" onclick="pmCopiar(this)">V-30.305.090</span></div>
+      <div class="fila"><span class="etiqueta">Titular</span><span class="dato">Carnicería El Buen Corte</span></div>
+    </div>
+    <div class="pm-acciones">
+      <a href="#" id="pmBtnWa" class="pm-btn-wa" target="_blank">📸 Enviar comprobante por WhatsApp</a>
+      <button class="pm-btn-cerrar" onclick="pmCerrar()">Cancelar</button>
+    </div>
+    <p class="pm-nota">💡 Toca los datos para copiarlos. Una vez realizado el pago, envía el comprobante por WhatsApp para confirmar tu pedido.</p>
+  </div>
+</div>
+
+<a href="https://wa.me/584127575553?text=Hola,%20quiero%20hacer%20un%20pedido" class="wpp" target="_blank" title="Pedir por WhatsApp">💬</a>
 
 <script>
-/* CURSOR */
-try {
-  const cursor = document.getElementById('cursor');
-  const cursorDot = document.getElementById('cursorDot');
-  if (cursor && cursorDot && window.innerWidth > 1024) {
-    let mx = 0, my = 0, cx = 0, cy = 0;
-    document.addEventListener('mousemove', function(e){
-      mx = e.clientX; my = e.clientY;
-      cursorDot.style.left = mx + 'px';
-      cursorDot.style.top = my + 'px';
-    });
-    function animateCursor(){
-      cx += (mx - cx) * 0.18;
-      cy += (my - cy) * 0.18;
-      cursor.style.left = cx + 'px';
-      cursor.style.top = cy + 'px';
-      requestAnimationFrame(animateCursor);
-    }
-    animateCursor();
-    document.querySelectorAll('a,button,.flip-card,.tilt-card,.cat-tile').forEach(function(el){
-      el.addEventListener('mouseenter', function(){ cursor.classList.add('hover'); });
-      el.addEventListener('mouseleave', function(){ cursor.classList.remove('hover'); });
-    });
-  }
-} catch(e) { console.log('cursor error', e); }
-
-/* PROGRESS + HEADER */
-try {
-  const progressBar = document.getElementById('progressBar');
-  const header = document.getElementById('header');
-  window.addEventListener('scroll', function(){
-    const scrolled = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    if (progressBar) progressBar.style.width = (scrolled / docHeight) * 100 + '%';
-    if (header) {
-      if (scrolled > 40) header.classList.add('scrolled');
-      else header.classList.remove('scrolled');
-    }
-  });
-} catch(e) { console.log('scroll error', e); }
-
-/* TILT 3D */
-try {
-  document.querySelectorAll('.tilt-card').forEach(function(card){
-    card.addEventListener('mousemove', function(e){
-      const rect = this.getBoundingClientRect();
-      const x = e.clientX - rect.left, y = e.clientY - rect.top;
-      const cx2 = rect.width / 2, cy2 = rect.height / 2;
-      const rX = ((y - cy2) / cy2) * -8;
-      const rY = ((x - cx2) / cx2) * 8;
-      this.style.transform = 'perspective(1500px) rotateX(' + rX + 'deg) rotateY(' + rY + 'deg) translateY(-6px)';
-    });
-    card.addEventListener('mouseleave', function(){
-      this.style.transform = 'perspective(1500px) rotateX(0) rotateY(0) translateY(0)';
-    });
-  });
-} catch(e) { console.log('tilt error', e); }
-
-/* TABS + BUSQUEDA */
-try {
-  const tabs = document.querySelectorAll('.tab');
-  const search = document.getElementById('search');
-  const catalogo = document.getElementById('catalogo');
-  if (catalogo) {
-    const allCards = catalogo.querySelectorAll('.flip-card');
-    const allGroups = catalogo.querySelectorAll('.grid[data-group]');
-    const allTitles = catalogo.querySelectorAll('.cat-title');
-    let tabActiva = 'todos';
-    function aplicarFiltros(){
-      const q = search.value.toLowerCase().trim();
-      allCards.forEach(function(c){
-        const nombre = c.querySelector('h3').textContent.toLowerCase();
-        c.style.display = nombre.includes(q) ? 'block' : 'none';
-      });
-      allGroups.forEach(function(g, i){
-        const grupo = g.dataset.group;
-        const visibles = g.querySelectorAll('.flip-card:not([style*="display: none"])').length;
-        const coincide = (tabActiva === 'todos' || tabActiva === grupo);
-        if (visibles === 0 || !coincide) {
-          g.style.display = 'none';
-          if (allTitles[i]) allTitles[i].style.display = 'none';
-        } else {
-          g.style.display = 'grid';
-          if (allTitles[i]) allTitles[i].style.display = 'flex';
-        }
-      });
-    }
-    if (search) search.addEventListener('input', aplicarFiltros);
-    tabs.forEach(function(t){
-      t.addEventListener('click', function(){
-        tabs.forEach(x => x.classList.remove('active'));
-        t.classList.add('active');
-        tabActiva = t.dataset.tab;
-        aplicarFiltros();
-      });
-    });
-  }
-} catch(e) { console.log('filtros error', e); }
-
-/* VIDEO PLAY */
-try {
-  document.querySelectorAll('.video-play').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      const video = this.parentElement.querySelector('video');
-      if (video) {
-        if (video.paused) {
-          video.play();
-          this.style.opacity = '0';
-          this.style.pointerEvents = 'none';
-        } else {
-          video.pause();
-          this.style.opacity = '1';
-          this.style.pointerEvents = 'auto';
-        }
-      }
-    });
-  });
-} catch(e) { console.log('video error', e); }
-
-/* FALLBACK IMAGENES */
-try {
-  document.querySelectorAll('img').forEach(function(img){
-    img.addEventListener('error', function(){ this.style.display = 'none'; });
-  });
-} catch(e) { console.log('img error', e); }
-
-/* ===== CONVERSIÓN AUTOMÁTICA A BOLÍVARES ===== */
-(async function() {
-  const API_KEY = 'TU_API_KEY_AQUI';
-  const FALLBACK_RATE = 888.89;
-
-  let tasa = FALLBACK_RATE;
-
-  try {
-    const response = await fetch(`https://allratestoday.com/api/v1/central-bank/bcv/latest?apikey=${API_KEY}`);
-    if (!response.ok) throw new Error('Respuesta no válida');
-    const data = await response.json();
-    if (data && data.rates && data.rates.USD) {
-      tasa = data.rates.USD;
-    } else if (data && data.rate) {
-      tasa = data.rate;
-    }
-  } catch (error) {
-    console.warn('Tasa automática no disponible, usando respaldo.');
-  }
-
-  function formatearBs(valor) {
-    return valor.toLocaleString('es-VE', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    });
-  }
-
-  document.querySelectorAll('[data-price-usd]').forEach(function(el) {
-    const precioUSD = parseFloat(el.getAttribute('data-price-usd'));
-    if (isNaN(precioUSD)) return;
-    const precioVES = precioUSD * tasa;
-    let spanVES = el.querySelector('.price-ves');
-    if (!spanVES) {
-      spanVES = document.createElement('span');
-      spanVES.className = 'price-ves';
-      el.appendChild(spanVES);
-    }
-    spanVES.textContent = 'Bs. ' + formatearBs(precioVES);
-  });
-
-  console.log('Conversión completada con tasa:', tasa);
-})();
+try{const p=document.getElementById('progressBar'),h=document.getElementById('header');window.addEventListener('scroll',function(){const s=window.scrollY,dh=document.documentElement.scrollHeight-window.innerHeight;if(p)p.style.width=(s/dh)*100+'%';if(h){if(s>40)h.classList.add('scrolled');else h.classList.remove('scrolled')}})}catch(e){}
+try{const tabs=document.querySelectorAll('.tab'),search=document.getElementById('search'),cat=document.getElementById('catalogo');if(cat){const cards=cat.querySelectorAll('.flip-card'),groups=cat.querySelectorAll('.grid[data-group]'),titles=cat.querySelectorAll('.cat-title');let active='todos';function f(){const q=search.value.toLowerCase().trim();cards.forEach(function(c){const n=c.querySelector('h3').textContent.toLowerCase();c.style.display=n.includes(q)?'block':'none'});groups.forEach(function(g,i){const grp=g.dataset.group,v=g.querySelectorAll('.flip-card:not([style*="display: none"])').length,ok=(active==='todos'||active===grp);if(v===0||!ok){g.style.display='none';if(titles[i])titles[i].style.display='none'}else{g.style.display='grid';if(titles[i])titles[i].style.display='flex'}})}if(search)search.addEventListener('input',f);tabs.forEach(function(t){t.addEventListener('click',function(){tabs.forEach(x=>x.classList.remove('active'));t.classList.add('active');active=t.dataset.tab;f()})})}}catch(e){}
+try{document.querySelectorAll('.video-play').forEach(function(b){b.addEventListener('click',function(){const v=this.parentElement.querySelector('video');if(v){if(v.paused){v.play();this.style.opacity='0';this.style.pointerEvents='none'}else{v.pause();this.style.opacity='1';this.style.pointerEvents='auto'}}})})}catch(e){}
+try{document.querySelectorAll('img').forEach(function(img){img.addEventListener('error',function(){this.style.display='none'})})}catch(e){}
+try{function cont(){const a=new Date(),m=new Date(a);m.setHours(24,0,0,0);const diff=m-a,h=Math.floor(diff/3600000),mn=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);const eH=document.getElementById('c-horas'),eM=document.getElementById('c-min'),eS=document.getElementById('c-seg');if(eH)eH.textContent=String(h).padStart(2,'0');if(eM)eM.textContent=String(mn).padStart(2,'0');if(eS)eS.textContent=String(s).padStart(2,'0')}cont();setInterval(cont,1000)}catch(e){}
+try{const inp=document.getElementById('calc-personas'),bm=document.getElementById('calc-mas'),bn=document.getElementById('calc-menos'),tipos=document.querySelectorAll('.calc-tipo');let tipo='parrilla';const P={carne:12,pollo:3,chuleta:7};function calc(){let p=parseInt(inp.value)||1;if(p<1)p=1;if(p>50)p=50;inp.value=p;let c=0,po=0,ch=0;if(tipo==='parrilla'){c=p*0.25;po=p*0.15;ch=p*0.10}else if(tipo==='guiso'){c=p*0.20;po=p*0.10;ch=0}else{c=p*0.22;po=p*0.12;ch=p*0.05}c=Math.round(c*10)/10;po=Math.round(po*10)/10;ch=Math.round(ch*10)/10;const t=(c*P.carne)+(po*P.pollo)+(ch*P.chuleta);document.getElementById('r-carne').textContent=c+' kg';document.getElementById('r-pollo').textContent=po+' kg';document.getElementById('r-chuleta').textContent=ch+' kg';document.getElementById('calc-total').textContent='$'+t.toFixed(2);const msg=encodeURIComponent('Hola, quiero pedir (calculadora para '+p+' personas): '+c+'kg Carne de Res, '+po+'kg Pollo, '+ch+'kg Chuleta. Total aprox: $'+t.toFixed(2));document.getElementById('calc-btn').href='https://wa.me/584127575553?text='+msg}if(bm&&bn&&inp){bm.addEventListener('click',function(){inp.value=(parseInt(inp.value)||1)+1;calc()});bn.addEventListener('click',function(){inp.value=Math.max(1,(parseInt(inp.value)||1)-1);calc()});inp.addEventListener('input',calc);tipos.forEach(function(t){t.addEventListener('click',function(){tipos.forEach(x=>x.classList.remove('active'));t.classList.add('active');tipo=t.dataset.tipo;calc()})});calc()}}catch(e){}
+(async function(){const K='TU_API_KEY_AQUI',FB=888.89;let tasa=FB;try{const r=await fetch(`https://allratestoday.com/api/v1/central-bank/bcv/latest?apikey=${K}`);if(!r.ok)throw 0;const data=await r.json();if(data&&data.rates&&data.rates.USD)tasa=data.rates.USD;else if(data&&data.rate)tasa=data.rate}catch(e){}window.TASA_BCV_ACTUAL=tasa;function fBs(v){return v.toLocaleString('es-VE',{minimumFractionDigits:2,maximumFractionDigits:2})}document.querySelectorAll('[data-price-usd]').forEach(function(el){if(el.classList.contains('price-ves-combo'))return;const u=parseFloat(el.getAttribute('data-price-usd'));if(isNaN(u))return;const v=u*tasa;let sp=el.querySelector('.price-ves');if(!sp){sp=document.createElement('span');sp.className='price-ves';el.appendChild(sp)}sp.textContent='Bs. '+fBs(v)});document.querySelectorAll('.price-ves-combo').forEach(function(el){const u=parseFloat(el.getAttribute('data-price-usd'));if(isNaN(u))return;el.textContent='Bs. '+fBs(u*tasa)});setTimeout(function(){if(window.actualizarCarritoUI)window.actualizarCarritoUI()},500)})();
+(function(){var CK='elbuencorte_carrito',carrito=[];try{var s=localStorage.getItem(CK);if(s)carrito=JSON.parse(s)}catch(e){}function save(){try{localStorage.setItem(CK,JSON.stringify(carrito))}catch(e){}}function fBs(v){return v.toLocaleString('es-VE',{minimumFractionDigits:2,maximumFractionDigits:2})}function update(){var bar=document.getElementById('cartBar'),count=document.getElementById('cartCount'),info=document.getElementById('cartInfo'),tot=document.getElementById('cartTotal'),totBs=document.getElementById('cartTotalBs');var ti=carrito.reduce((s,it)=>s+it.cant,0),tu=carrito.reduce((s,it)=>s+(it.precio*it.cant),0);var tasa=window.TASA_BCV_ACTUAL||888.89;var tb=tu*tasa;if(ti>0){if(bar)bar.classList.add('visible');if(count)count.textContent=ti;if(info)info.textContent=ti+(ti===1?' producto':' productos');if(tot)tot.textContent='$'+tu.toFixed(2);if(totBs)totBs.textContent='Bs. '+fBs(tb)}else{if(bar)bar.classList.remove('visible')}var body=document.getElementById('cartBody'),subU=document.getElementById('cartSubtotalUSD'),subB=document.getElementById('cartSubtotalBs'),fEl=document.getElementById('cartFinal');if(body){if(carrito.length===0){body.innerHTML='<div class="cart-vacio"><div class="emoji">🛒</div><p>Aún no has agregado nada.<br>Explora nuestros productos y agrega tus favoritos.</p></div>'}else{body.innerHTML=carrito.map(function(it,i){var img=it.img||'https://images.unsplash.com/photo-1603048297172-c92544798d5a?w=200&q=80';return '<div class="cart-item"><div class="cart-item-img"><img src="'+img+'" onerror="this.style.display=\'none\'"></div><div class="cart-item-info"><h4>'+it.nombre+'</h4><div class="item-precio">$'+it.precio.toFixed(2)+' c/u</div><div class="cart-item-cant"><button onclick="cambiarCantidad('+i+',-1)">−</button><span>'+it.cant+'</span><button onclick="cambiarCantidad('+i+',1)">+</button></div></div><button class="cart-item-del" onclick="eliminarItem('+i+')">🗑️</button></div>'}).join('')}if(subU)subU.textContent='$'+tu.toFixed(2);if(subB)subB.textContent='Bs. '+fBs(tb);if(fEl)fEl.textContent='$'+tu.toFixed(2)}}window.actualizarCarritoUI=update;window.agregarAlCarrito=function(btn){var t=btn.closest('.flip-back');if(!t)return;var n=t.querySelector('h3')?t.querySelector('h3').textContent.trim():'Producto';var pEl=t.querySelector('.back-price');var p=pEl?parseFloat(pEl.getAttribute('data-price-usd')||pEl.textContent.replace(/[^0-9.]/g,'')):0;var img='';var fr=t.parentElement.querySelector('.flip-front img');if(fr)img=fr.src;var ex=carrito.find(it=>it.nombre===n);if(ex){ex.cant++}else{carrito.push({nombre:n,precio:p,cant:1,img:img})}save();update();btn.classList.add('agregado');var o=btn.innerHTML;btn.innerHTML='✓ Agregado';setTimeout(function(){btn.classList.remove('agregado');btn.innerHTML=o},1200)};window.cambiarCantidad=function(i,d){if(!carrito[i])return;carrito[i].cant+=d;if(carrito[i].cant<=0)carrito.splice(i,1);save();update()};window.eliminarItem=function(i){carrito.splice(i,1);save();update()};window.abrirCarrito=function(){document.getElementById('cartPanel').classList.add('open');document.getElementById('cartOverlay').classList.add('open')};window.cerrarCarrito=function(){document.getElementById('cartPanel').classList.remove('open');document.getElementById('cartOverlay').classList.remove('open')};window.pedirPorWhatsApp=function(){if(carrito.length===0){alert('Tu carrito está vacío.');return}var tasa=window.TASA_BCV_ACTUAL||888.89;var msg='Hola, quiero hacer el siguiente pedido:\n\n';var tu=0;carrito.forEach(function(it){msg+='• '+it.cant+'x '+it.nombre+' — $'+(it.precio*it.cant).toFixed(2)+'\n';tu+=it.precio*it.cant});msg+='\n────────────────\n';msg+='Total USD: $'+tu.toFixed(2)+'\n';msg+='Total Bs: '+fBs(tu*tasa)+' Bs\n\n';msg+='Mi nombre es: [escribe tu nombre]\n';msg+='Dirección de entrega: [escribe tu dirección]\n';window.open('https://wa.me/584127575553?text='+encodeURIComponent(msg),'_blank')};function inject(){document.querySelectorAll('.flip-back').forEach(function(t){if(t.querySelector('.agregar-btn'))return;var w=t.querySelector('.back-btn');if(!w)return;var b=document.createElement('button');b.className='agregar-btn';b.innerHTML='🛒 Agregar al carrito';b.onclick=function(){window.agregarAlCarrito(b)};w.parentElement.insertBefore(b,w)})}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',function(){setTimeout(function(){inject();update()},300)})}else{setTimeout(function(){inject();update()},300)}document.getElementById('cartOverlay').addEventListener('click',window.cerrarCarrito);setTimeout(function(){update()},2500);window.carritoGlobal=carrito})();
+(function(){var CK='elbuencorte_carrito';function leerCarrito(){try{var s=localStorage.getItem(CK);return s?JSON.parse(s):[]}catch(e){return[]}}function fmtBs(v){return v.toLocaleString('es-VE',{minimumFractionDigits:2,maximumFractionDigits:2})}window.pmCopiar=function(el){var t=el.textContent;if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){var o=el.textContent;el.textContent='✓ Copiado';setTimeout(function(){el.textContent=o},1000)})}};window.pmCerrar=function(){var ov=document.getElementById('pmOverlay');if(ov)ov.classList.remove('open')};window.abrirPagoMovil=function(){var carrito=leerCarrito();if(carrito.length===0){alert('Tu carrito está vacío.');return}var totalUSD=carrito.reduce(function(s,it){return s+(it.precio*it.cant)},0);var tasa=window.TASA_BCV_ACTUAL||888.89;var totalBs=totalUSD*tasa;document.getElementById('pmMontoBs').textContent='Bs. '+fmtBs(totalBs);document.getElementById('pmMontoUsd').textContent='($'+totalUSD.toFixed(2)+' USD)';var msg='Hola, acabo de realizar un Pago Móvil. Aquí está mi comprobante:\n\n';msg+='📋 *Resumen del pedido:*\n';carrito.forEach(function(it){msg+='• '+it.cant+'x '+it.nombre+' — $'+(it.precio*it.cant).toFixed(2)+'\n'});msg+='\n💰 *Total USD:* $'+totalUSD.toFixed(2)+'\n';msg+='💵 *Monto en Bs:* '+fmtBs(totalBs)+' Bs\n';msg+='📅 *Tasa aplicada:* '+tasa.toFixed(2)+' Bs/USD\n\n';msg+='📎 *Adjunto comprobante de pago.*\n';msg+='Mi nombre es: [escribe tu nombre]\n';msg+='Dirección de entrega: [escribe tu dirección]\n';document.getElementById('pmBtnWa').href='https://wa.me/584127575553?text='+encodeURIComponent(msg);document.getElementById('pmOverlay').classList.add('open')};var ov=document.getElementById('pmOverlay');if(ov)ov.addEventListener('click',function(e){if(e.target===ov)pmCerrar()})})();
 </script>
 
 </body>
